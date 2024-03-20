@@ -1,4 +1,4 @@
-package com.example.springbootprojektiths.restController;
+package com.example.springbootprojektiths.controller;
 
 import com.example.springbootprojektiths.entity.User;
 import com.example.springbootprojektiths.repository.UserRepository;
@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.ResourceBundle;
 
 @RestController
 public class UserControllerRest {

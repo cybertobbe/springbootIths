@@ -1,4 +1,4 @@
-package com.example.springbootprojektiths.restController;
+package com.example.springbootprojektiths.controller;
 
 import com.example.springbootprojektiths.entity.Message;
 
@@ -57,7 +57,6 @@ public class MessageControllerRest {
 
     // get message by id
     @GetMapping("/message/{id}")
-
     public Optional<Message> getMessage(@PathVariable("id") Long id) {
         var message = messageRepository.findById(id);
 
@@ -65,10 +64,17 @@ public class MessageControllerRest {
     }
 
     // add message
-    @PostMapping("/message")
-    ResponseEntity<Void> createMessage(@RequestBody Message message) {
+    @PostMapping("/message/{id}")
+    ResponseEntity<Void> createMessage(@PathVariable("id") Long id, @RequestBody Message message) {
 
         messageRepository.save(message);
+        Optional<User> optionalUser = userRepository.findById(id);
+        User user = optionalUser.orElseThrow(() -> new RuntimeException("User not found with ID: " + id));
+
+
+        List list = user.getMessages();
+        list.add(message);
+        userRepository.save(user);
         return ResponseEntity.ok().build();
     }
 

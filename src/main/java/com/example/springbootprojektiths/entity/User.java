@@ -14,7 +14,7 @@ public class User {
     private String loginName;
     private String mail;
     private String password;
-    private boolean admin = false;
+    private Boolean admin = false;
 
 
     public User() {
@@ -80,7 +80,6 @@ public class User {
     public void setMessages(List<Message> messages) {
         this.messages = messages;
     }
-
 
     public void setMessage(List<Message> messages) {
         this.messages = messages;
