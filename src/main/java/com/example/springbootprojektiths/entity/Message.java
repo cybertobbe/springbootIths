@@ -3,6 +3,9 @@ package com.example.springbootprojektiths.entity;
 import jakarta.persistence.*;
 import org.springframework.data.annotation.CreatedDate;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+
 
 @Entity
 public class Message {
@@ -21,12 +24,11 @@ public class Message {
     @CreatedDate
     private LocalDate date;
 
+
     public Message() {
+        this.date = LocalDate.now();
     }
 
-    public Message(String title) {
-        this.title = title;
-    }
 
     public Long getId() {
         return id;
