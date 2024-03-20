@@ -80,4 +80,11 @@ public class User {
     public void setMessages(List<Message> messages) {
         this.messages = messages;
     }
+
+
+    public void setMessage(List<Message> messages) {
+        this.messages = messages;
+    }
+
+
 }

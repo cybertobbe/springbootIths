@@ -1,6 +1,9 @@
 package com.example.springbootprojektiths.restController;
 
 import com.example.springbootprojektiths.entity.Message;
+
+import com.example.springbootprojektiths.entity.User;
+
 import com.example.springbootprojektiths.repository.MessageRepository;
 import com.example.springbootprojektiths.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,19 +21,33 @@ public class MessageControllerRest {
     @Autowired
     private MessageRepository messageRepository;
 
+
+
     // create test msg
-    @GetMapping("/createTestMsg")
-    Message testMsg(){
+    @PostMapping("/createTestMsg/{id}")
+    Message testMsg(@PathVariable("id") Long id) {
+
         Message message = new Message();
         String msg = "hello abc";
         message.setMessage(msg);
         messageRepository.save(message);
+
+        // Retrieve user from Optional<User>
+        Optional<User> optionalUser = userRepository.findById(id);
+        User user = optionalUser.orElseThrow(() -> new RuntimeException("User not found with ID: " + id));
+
+
+        List list = user.getMessages();
+        list.add(message);
+        userRepository.save(user);
+
         return message;
     }
 
     // get all messages
     @GetMapping("/message")
-    List<Message> getMessages(){
+    List<Message> getMessages() {
+
         // Retrieve all messages from the repository
         List<Message> messages = messageRepository.findAll();
 
@@ -40,14 +57,17 @@ public class MessageControllerRest {
 
     // get message by id
     @GetMapping("/message/{id}")
-    public Optional <Message> getMessage (@PathVariable ("id") Long id) {
-       var message = messageRepository.findById(id);
+
+    public Optional<Message> getMessage(@PathVariable("id") Long id) {
+        var message = messageRepository.findById(id);
+
         return message;
     }
 
     // add message
     @PostMapping("/message")
-    ResponseEntity<Void> createMessage(@RequestBody Message message){
+    ResponseEntity<Void> createMessage(@RequestBody Message message) {
+
         messageRepository.save(message);
         return ResponseEntity.ok().build();
     }
@@ -62,6 +82,7 @@ public class MessageControllerRest {
     // change message
     @PatchMapping("/message/change/{id}")
     void changeMessage(@RequestBody Message updatedMessage,@PathVariable Long id){
+
 
         // Retrieve the existing message from the repository
         var existingMessageOptional = messageRepository.findById(id);
@@ -90,6 +111,7 @@ public class MessageControllerRest {
     ResponseEntity<Void> setVisible(@PathVariable Long id){
         var count = messageRepository.setVisible(id);
         if(count == 1)
+
             return ResponseEntity.noContent().build();
         else
             return ResponseEntity.notFound().build();
