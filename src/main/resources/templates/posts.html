@@ -10,7 +10,8 @@
     </style>
 </head>
 <body>
-<p th:each="message : ${messages}" th:text="${messages?.fullName}"></p>
+
+
 <table>
     <thead>
     <tr>
@@ -20,18 +21,12 @@
         <th>Date</th>
     </tr>
     </thead>
-    <tbody>
+    <tbody th:each ="message : ${messages}">
     <tr>
-        <td>Info </td>
-        <td>Text </td>
-        <td>John Doe </td>
-        <td>2024-03-20 </td>
-    </tr>
-    <tr>
-        <td>Info2</td>
-        <td>Text2 Text2 Text2 Text2 Text2 Text2 Text2 Text2 Text2 Text2 Text2 Text2 Text2</td>
-        <td>Jane Doe</td>
-        <td>2024-03-20</td>
+        <td th:text="${message?.title}"></td>
+        <td th:text="${message?.message}"></td>
+        <td th:text="${message?.author}"></td>
+        <td th:text="${message?.date}"></td>
     </tr>
     </tbody>
 </table>
