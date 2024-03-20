@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        table, th, td {
+            border: 1px solid black;
+        }
+    </style>
+</head>
+<body>
+<p th:each="message : ${messages}" th:text="${messages?.fullName}"></p>
+<table>
+    <thead>
+    <tr>
+        <th>Title</th>
+        <th>Message Body</th>
+        <th>Author</th>
+        <th>Date</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td>Info </td>
+        <td>Text </td>
+        <td>John Doe </td>
+        <td>2024-03-20 </td>
+    </tr>
+    <tr>
+        <td>Info2</td>
+        <td>Text2 Text2 Text2 Text2 Text2 Text2 Text2 Text2 Text2 Text2 Text2 Text2 Text2</td>
+        <td>Jane Doe</td>
+        <td>2024-03-20</td>
+    </tr>
+    </tbody>
+</table>
+
+</body>
+</html>
