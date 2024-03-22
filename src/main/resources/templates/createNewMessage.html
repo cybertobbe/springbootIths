@@ -1,0 +1,27 @@
+<!DOCTYPE HTML>
+<html xmlns:th="https://www.thymeleaf.org" lang="en">
+<head>
+    <title>Add a message</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+</head>
+<body>
+<h1>Type your message</h1>
+<form action="#" th:action="@{/createNewMessage}" th:object="${formData}" method="post">
+    <p>
+<!-- <label for="title" th:text="${title} + ':'"/>-->
+        <label for="title">Title</label>
+        <input id="title" type="text" th:field="*{title}"/>
+    <p th:if="${#fields.hasErrors('title')}"
+       th:text="${#strings.listJoin(#fields.errors('title'), ', ')}"></p>
+
+    <p>
+<!--        <label for="chatMessage" th:text="${formData.chatMessage} + ':'"/>-->
+        <label for="chatMessage">Message</label>
+        <input id="chatMessage" type="text" th:field="*{chatMessage}"/>
+    <p th:if="${#fields.hasErrors('chatMessage')}"
+       th:text="${#strings.listJoin(#fields.errors('chatMessage'), ', ')}"></p>
+    </p>
+    <p><input type="submit" value="Submit"/> <input type="reset" value="Reset"/></p>
+</form>
+</body>
+</html>

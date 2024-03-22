@@ -3,8 +3,6 @@ package com.example.springbootprojektiths.entity;
 import jakarta.persistence.*;
 import org.springframework.data.annotation.CreatedDate;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
 
 
 @Entity
@@ -46,12 +44,12 @@ public class Message {
         this.title = title;
     }
 
-    public String getMessage() {
+    public String getChatMessage() {
         return chatMessage;
     }
 
-    public void setMessage(String message) {
-        this.chatMessage = message;
+    public void setChatMessage(String chatMessage) {
+        this.chatMessage = chatMessage;
     }
 
     public String getAuthor() {
