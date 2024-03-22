@@ -29,7 +29,7 @@ public class MessageControllerRest {
 
         Message message = new Message();
         String msg = "hello abc";
-        message.setMessage(msg);
+        message.setChatMessage(msg);
         messageRepository.save(message);
 
         // Retrieve user from Optional<User>
@@ -98,7 +98,7 @@ public class MessageControllerRest {
             // Update the existing message with the new data
             Message existingMessage = existingMessageOptional.get();
             existingMessage.setTitle(updatedMessage.getTitle());
-            existingMessage.setMessage(updatedMessage.getMessage());
+            existingMessage.setChatMessage(updatedMessage.getChatMessage());
             existingMessage.setAuthor(updatedMessage.getAuthor());
             existingMessage.setVisible(updatedMessage.isVisible());
             existingMessage.setUser(updatedMessage.getUser());

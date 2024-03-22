@@ -24,12 +24,12 @@
     <tbody th:each ="message : ${messages}">
     <tr>
         <td th:text="${message?.title}"></td>
-        <td th:text="${message?.message}"></td>
+        <td th:text="${message?.chatMessage}"></td>
         <td th:text="${message?.author}"></td>
         <td th:text="${message?.date}"></td>
     </tr>
     </tbody>
 </table>
-
+<a th:href="@{createNewMessage}">Create new message</a>
 </body>
 </html>
