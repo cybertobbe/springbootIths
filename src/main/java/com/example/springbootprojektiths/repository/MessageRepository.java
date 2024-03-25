@@ -2,9 +2,10 @@ package com.example.springbootprojektiths.repository;import com.example.springbo
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.ListCrudRepository;
+import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.transaction.annotation.Transactional;
 
-public interface MessageRepository extends ListCrudRepository<Message, Long> {
+public interface MessageRepository extends PagingAndSortingRepository<Message, Long>, ListCrudRepository<Message, Long> {
     @Query("""
             update Message m set m.visible = true where m.id = ?1
             """)

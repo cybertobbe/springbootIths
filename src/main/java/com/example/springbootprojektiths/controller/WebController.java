@@ -5,16 +5,20 @@ import com.example.springbootprojektiths.EditMessageForm;
 import com.example.springbootprojektiths.entity.Message;
 import com.example.springbootprojektiths.repository.MessageRepository;
 import com.example.springbootprojektiths.repository.UserRepository;
+import com.example.springbootprojektiths.service.MessageServices;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 @Controller
 public class WebController {
@@ -25,15 +29,43 @@ public class WebController {
     @Autowired
     UserRepository userRepository;
 
+    @Autowired
+    MessageServices messageServices;
 
 
-    @GetMapping("/posts")
+    @RequestMapping(value = "/listmessages", method = RequestMethod.GET)
+    public String listMessages(
+            Model model,
+            @RequestParam("page") Optional<Integer> page,
+            @RequestParam("size") Optional<Integer> size) {
+        List<Message> messages = messageRepository.findAll();
+        model.addAttribute("messages", messages);
+
+        int currentPage = page.orElse(1);
+        int pageSize = size.orElse(5);
+
+        Page<Message> messagePage = messageServices.findPaginated(PageRequest.of(currentPage - 1, pageSize));
+
+        model.addAttribute("messagePage", messagePage);
+
+        int totalPages = messagePage.getTotalPages();
+        if (totalPages > 0) {
+            List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages)
+                    .boxed()
+                    .collect(Collectors.toList());
+            model.addAttribute("pageNumbers", pageNumbers);
+        }
+
+        return "posts";
+    }
+
+/*    @GetMapping("/posts")
     String posts(Model model ){
        List<Message> messages = messageRepository.findAll();
        // List<User> people = userRepository.findAll();
         model.addAttribute("messages", messages);
         return "posts";
-    }
+    }*/
 
     @GetMapping("/createNewMessage")
     public String addMessage (Model model) {
@@ -48,7 +80,7 @@ public class WebController {
             return"createNewMessage";
         }
         messageRepository.save(message.toEntity());
-        return "redirect:/posts";
+        return "redirect:/listmessages";
     }
 
     @GetMapping("/yourMessages")
@@ -80,12 +112,14 @@ public class WebController {
             messageRepository.save(message);
 
             // Redirect to a different page or return appropriate view name
-            return "redirect:/posts";
+            return "redirect:/listmessages";
         } else {
             // Handle case where message with given id is not found
             return "redirect:/error";
         }
     }
+
+
 
 }
 
