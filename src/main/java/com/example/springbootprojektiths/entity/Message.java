@@ -3,6 +3,7 @@ package com.example.springbootprojektiths.entity;
 import jakarta.persistence.*;
 import org.springframework.data.annotation.CreatedDate;
 import java.time.LocalDate;
+import java.util.Date;
 
 
 @Entity

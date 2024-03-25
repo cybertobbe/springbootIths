@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -102,8 +103,9 @@ public class MessageControllerRest {
             existingMessage.setAuthor(updatedMessage.getAuthor());
             existingMessage.setVisible(updatedMessage.isVisible());
             existingMessage.setUser(updatedMessage.getUser());
-
+            existingMessage.setDate(LocalDate.now());
             // Save the updated message back to the repository
+
             messageRepository.save(existingMessage);
         } else {
             // Handle the case where the message with the given id does not exist
