@@ -21,7 +21,7 @@
         <th>Date</th>
     </tr>
     </thead>
-    <tbody th:each ="message : ${messages}">
+    <tbody th:each ="message : ${messagePage.content}">
     <tr>
         <td th:text="${message?.title}"></td>
         <td th:text="${message?.chatMessage}"></td>
@@ -30,6 +30,14 @@
     </tr>
     </tbody>
 </table>
+
+<div th:if="${messagePage.totalPages > 0}" class="pagination"
+     th:each="pageNumber : ${pageNumbers}">
+    <a th:href="@{/listmessages(size=${messagePage.size}, page=${pageNumber})}"
+       th:text="${pageNumber}"
+       th:class="${pageNumber == messagePage.number + 1} ? 'active'"></a>
+</div>
+
 <a th:href="@{createNewMessage}">Create new message</a>
 <a th:href="@{yourMessages}">Edit your messages</a>
 </body>
