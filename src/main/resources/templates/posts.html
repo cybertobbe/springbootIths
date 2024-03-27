@@ -10,15 +10,19 @@
     </style>
 </head>
 <body>
+<div>
+    <a href="http://localhost:8080/listmessages?lang=en">English</a>
+    <a href="http://localhost:8080/listmessages?lang=sv">Svenska</a>
+</div>
 
 
 <table>
     <thead>
     <tr>
-        <th>Title</th>
-        <th>Message Body</th>
-        <th>Author</th>
-        <th>Date</th>
+        <th th:text="#{title}"></th>
+        <th th:text="#{message.body}"></th>
+        <th th:text="#{author}"></th>
+        <th th:text="#{date}"></th>
     </tr>
     </thead>
     <tbody th:each ="message : ${messagePage.content}">
@@ -38,7 +42,7 @@
        th:class="${pageNumber == messagePage.number + 1} ? 'active'"></a>
 </div>
 
-<a th:href="@{createNewMessage}">Create new message</a>
-<a th:href="@{yourMessages}">Edit your messages</a>
+<a th:href="@{createNewMessage}" th:text="#{create.new.message}"></a>
+<a th:href="@{yourMessages}" th:text="#{edit.your.message}"></a>
 </body>
 </html>
