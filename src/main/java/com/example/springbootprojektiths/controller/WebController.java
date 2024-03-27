@@ -6,16 +6,21 @@ import com.example.springbootprojektiths.entity.Message;
 import com.example.springbootprojektiths.repository.MessageRepository;
 import com.example.springbootprojektiths.repository.UserRepository;
 import com.example.springbootprojektiths.service.MessageServices;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -33,14 +38,36 @@ public class WebController {
     MessageServices messageServices;
 
 
+
+
     @RequestMapping(value = "/listmessages", method = RequestMethod.GET)
     public String listMessages(
             Model model,
             @RequestParam("page") Optional<Integer> page,
-            @RequestParam("size") Optional<Integer> size) {
+            @RequestParam("size") Optional<Integer> size,
+            @AuthenticationPrincipal OAuth2User principal) {
+
+        //int githubid = principal.getAttribute("id");
+        //long githubid = (long) githubid;
+
+        Object idObject = principal.getAttribute("id");
+
+        Integer idInteger = (Integer) idObject;
+        var user = userRepository.findById(idInteger.longValue());
+        model.addAttribute("person", user.get());
+
+//        if (idObject instanceof Integer) {
+//            Integer idInteger = (Integer) idObject;
+//            var user = userRepository.findById(idInteger.longValue());
+//            model.addAttribute("person", user.get());
+//        } else if (idObject instanceof Long) {
+//            var user = userRepository.findById((Long) idObject);
+//            model.addAttribute("person", user.get());
+//        }
         List<Message> messages = messageRepository.findAll();
         model.addAttribute("messages", messages);
-
+   //     var user = userRepository.findById(id);
+  //      model.addAttribute("person", user.get());
         int currentPage = page.orElse(1);
         int pageSize = size.orElse(5);
 
