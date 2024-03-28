@@ -2,17 +2,17 @@ package com.example.springbootprojektiths.controller;
 
 import com.example.springbootprojektiths.CreateNewMessageForm;
 import com.example.springbootprojektiths.EditMessageForm;
+import com.example.springbootprojektiths.editUserForm;
 import com.example.springbootprojektiths.entity.Message;
+import com.example.springbootprojektiths.entity.User;
 import com.example.springbootprojektiths.repository.MessageRepository;
 import com.example.springbootprojektiths.repository.UserRepository;
 import com.example.springbootprojektiths.service.MessageServices;
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,7 +20,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -146,7 +145,33 @@ public class WebController {
         }
     }
 
+    @GetMapping("/userSettings")
+    public String userPage( @AuthenticationPrincipal OAuth2User principal, Model model){
+        Object idObject = principal.getAttribute("id");
+        Integer idInteger = (Integer) idObject;
+        Optional<User> userOptional = userRepository.findById(idInteger.longValue());
+        User user = userOptional.get();
+        model.addAttribute("userData", new editUserForm(user.getId(), user.getFullName(), user.getLoginName(), user.getMail()) );
+              return "userSettings";
+    }
+    @PostMapping("/userSettings")
+    public String editUser( @AuthenticationPrincipal OAuth2User principal, Model model, @ModelAttribute("userData") editUserForm userForm ){
+        Object idObject = principal.getAttribute("id");
+        Integer idInteger = (Integer) idObject;
+        Optional<User> userOptional = userRepository.findById(idInteger.longValue());
+        if (userOptional.isPresent()) {
+            User user = userOptional.get();
 
+            user.setFullName(userForm.getFullName());
+            user.setLoginName(userForm.getLoginName());
+            user.setMail(userForm.getMail());
+
+            userRepository.save(user);
+            return "userSettings";
+        } else {
+            return "redirect:/error";
+        }
+    }
 
 }
 
