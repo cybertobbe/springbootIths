@@ -29,48 +29,6 @@ public class GithubOAuth2UserService extends DefaultOAuth2UserService {
         this.userRepository = userRepository;
     }
 
-//    @Override
-//    public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
-//        OAuth2User oidcUser = super.loadUser(userRequest);
-//        Map<String, Object> attributes = oidcUser.getAttributes();
-//
-//       //logger.info("Attributes: {}", attributes);
-//        Object idObject = attributes.get("id");
-//
-//        User gitHubUser = new User();
-//        if (idObject instanceof Integer) {
-//            Integer idInteger = (Integer) idObject;
-//            gitHubUser.setId(idInteger.longValue());
-//        } else if (idObject instanceof Long) {
-//            gitHubUser.setId((Long) idObject);
-//        } else {
-//            logger.error("Unexpected type for id attribute: {}", idObject.getClass());
-//        }
-//
-//
-//        String fullName = gitHubUser.getFullName();
-//        gitHubUser.setFullName((String) attributes.get("name"));
-//        if (fullName == null || fullName.isEmpty()) {
-//
-//            gitHubUser.setFullName((String) attributes.get("name"));
-//        }
-//
-//        OAuth2AccessToken accessToken = userRequest.getAccessToken();
-//
-//        List<Email> result = gitHubService.getEmails(accessToken);
-//
-//        for (Email email : result) {
-//            if (email.primary()) {
-//                String emailAddress = email.email();
-//                System.out.println("Primary Email Address: " + emailAddress);
-//                gitHubUser.setMail(emailAddress);
-//                break;
-//            }
-//        }
-//
-//        userRepository.save(gitHubUser);
-//        return oidcUser;
-//    }
 
     @Override
     public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
@@ -114,15 +72,5 @@ public class GithubOAuth2UserService extends DefaultOAuth2UserService {
 
 
 
-/*
-    private void updateUser(User gitUser) {
-    logger.info("User detected, {}, {}", gitUser.getFullName(), gitUser.getId());
-
-    if (gitUser == null) {
-        logger.info("New user detected, {}, {}", gitUser.getFullName(), gitUser.getId());
-        gitUser = new User();
-    }
-    userRepository.save(gitUser);
-}*/
 
 }

@@ -18,7 +18,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -173,6 +179,67 @@ public class WebController {
         }
     }
 
+    public static String UPLOAD_DIRECTORY = System.getProperty("user.dir") + "/uploads";
+
+    @GetMapping("/uploadimage") public String displayUploadForm() {
+        return "test";
+    }
+
+    @PostMapping("/upload") public String uploadImage(Model model, @RequestParam("image") MultipartFile file) throws IOException {
+        StringBuilder fileNames = new StringBuilder();
+        Path fileNameAndPath = Paths.get(UPLOAD_DIRECTORY, file.getOriginalFilename());
+        fileNames.append(file.getOriginalFilename());
+        Files.write(fileNameAndPath, file.getBytes());
+        model.addAttribute("msg", "Uploaded images: " + fileNames.toString());
+        return "test";
+    }
+
+/*    @PostMapping("/upload")
+    @ResponseBody
+    public String uploadFile(@RequestParam("file") MultipartFile file) {
+        if (file.isEmpty()) {
+            return "Please select a file to upload";
+        }
+
+        try {
+            // Get the file and save it
+            String fileName = file.getOriginalFilename();
+            String filePath = "path/to/your/uploads/" + fileName; // Change this to your desired file path
+            File dest = new File(filePath);
+            file.transferTo(dest);
+            return "File uploaded successfully";
+        } catch (IOException e) {
+            e.printStackTrace();
+            return "Failed to upload file";
+        }
+    }*/
+
+        //Prova denna när vi ska ladda upp profilbild?? Måste ändra i databasen först med flyway.
+//    @PostMapping("/upload")
+//    public String uploadFile(@RequestParam("file") MultipartFile file, @RequestParam("userId") Long userId) {
+//        // Ladda upp filen och spara den på servern
+//        String fileName = file.getOriginalFilename();
+//        String filePath = "/path/to/upload/directory/" + fileName;
+//        try {
+//            File dest = new File(filePath);
+//            file.transferTo(dest);
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//            return "Failed to upload file.";
+//        }
+//
+//        // Spara sökvägen till filen i användarprofilen
+//        Optional<User> optionalUser = userRepository.findById(userId);
+//        if (optionalUser.isPresent()) {
+//            User user = optionalUser.get();
+//            user.setProfilePicture(filePath);
+//            userRepository.save(user);
+//            return "File uploaded successfully.";
+//        } else {
+//            return "User not found.";
+//        }
+//    }
 }
+
 
 

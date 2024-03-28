@@ -50,5 +50,6 @@ public class SecurityConfig {
     RestClient restClient() {
         return RestClient.create();
     }
+
 }
 
