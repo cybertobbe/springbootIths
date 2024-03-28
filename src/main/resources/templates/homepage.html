@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<table>
+    <thead>
+    <tr>
+
+
+        <th th:text="#{title}"></th>
+        <th th:text="#{message.body}"></th>
+        <th th:text="#{author}"></th>
+        <th th:text="#{date}"></th>
+    </tr>
+    </thead>
+    <tbody th:if="${message.visible == true}" th:each ="message : ${messages}">
+    <tr>
+        <td th:text="${message?.title}"></td>
+        <td th:text="${message?.chatMessage}"></td>
+        <td th:text="${message?.author}"></td>
+        <td th:text="${message?.date}"></td>
+    </tr>
+    </tbody>
+</table>
+
+
+</body>
+</html>
