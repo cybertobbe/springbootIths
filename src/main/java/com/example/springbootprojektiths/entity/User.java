@@ -11,13 +11,24 @@ public class User {
     // @GeneratedValue(strategy = GenerationType.IDENTITY) // behövs inte för github löser d
     private Long id;
     private String fullName;
-    private String loginName;
+    @Column(name = "userName", unique = true)
+    private String userName;
     private String mail;
-    private String password;
-    private Boolean admin = false;
 
 
     public User() {
+    }
+
+    @Column(name = "image_data")
+    @Lob
+    private byte[] imageData;
+
+    public byte[] getImageData() {
+        return imageData;
+    }
+
+    public void setImageData(byte[] imageData) {
+        this.imageData = imageData;
     }
 
     //Lazy fetch
@@ -41,12 +52,12 @@ public class User {
         this.fullName = fullName;
     }
 
-    public String getLoginName() {
-        return loginName;
+    public String getUserName() {
+        return userName;
     }
 
-    public void setLoginName(String loginName) {
-        this.loginName = loginName;
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
     public String getMail() {
@@ -55,22 +66,6 @@ public class User {
 
     public void setMail(String mail) {
         this.mail = mail;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public boolean isAdmin() {
-        return admin;
-    }
-
-    public void setAdmin(boolean admin) {
-        this.admin = admin;
     }
 
     public List<Message> getMessages() {
@@ -84,6 +79,5 @@ public class User {
     public void setMessage(List<Message> messages) {
         this.messages = messages;
     }
-
 
 }

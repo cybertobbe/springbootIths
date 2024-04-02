@@ -20,7 +20,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -154,7 +153,7 @@ public class WebController {
         Integer idInteger = (Integer) idObject;
         Optional<User> userOptional = userRepository.findById(idInteger.longValue());
         User user = userOptional.get();
-        model.addAttribute("userData", new editUserForm(user.getId(), user.getFullName(), user.getLoginName(), user.getMail()) );
+        model.addAttribute("userData", new editUserForm(user.getId(), user.getFullName(), user.getUserName(), user.getMail()) );
               return "userSettings";
     }
     @PostMapping("/userSettings")
@@ -166,7 +165,7 @@ public class WebController {
             User user = userOptional.get();
 
             user.setFullName(userForm.getFullName());
-            user.setLoginName(userForm.getLoginName());
+            user.setUserName(userForm.getUserName());
             user.setMail(userForm.getMail());
 
             userRepository.save(user);
