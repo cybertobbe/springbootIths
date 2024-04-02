@@ -33,8 +33,12 @@ public class Message {
     private Instant lastModifiedDate;
     public Message() {
         this.date = LocalDate.now();
+
     }
 
+    public String getUserName(){
+        return this.user.getUserName();
+    }
 
     public Instant getLastModifiedDate() {
         return lastModifiedDate;
