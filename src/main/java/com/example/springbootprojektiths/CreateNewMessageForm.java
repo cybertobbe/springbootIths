@@ -15,12 +15,15 @@ public class CreateNewMessageForm {
     @Max(50)
     private String chatMessage;
 
+    private boolean visible = false;
+
     public CreateNewMessageForm() {
     }
 
-    public CreateNewMessageForm(String title, String chatMessage) {
+    public CreateNewMessageForm(String title, String chatMessage, boolean visible) {
         this.title = title;
         this.chatMessage = chatMessage;
+        this.visible = visible;
     }
 
     public String getTitle() {
@@ -39,12 +42,20 @@ public class CreateNewMessageForm {
         this.chatMessage = chatMessage;
     }
 
+    public boolean isVisible() {
+        return visible;
+    }
+
+    public void setVisible(boolean visible) {
+        this.visible = visible;
+    }
+
     public Message toEntity() {
         var message = new Message();
         message.setChatMessage(chatMessage);
         message.setTitle(title);
+        message.setVisible(visible);
         return message;
     }
-
 
 }

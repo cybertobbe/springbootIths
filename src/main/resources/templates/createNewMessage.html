@@ -21,7 +21,12 @@
     <p th:if="${#fields.hasErrors('chatMessage')}"
        th:text="${#strings.listJoin(#fields.errors('chatMessage'), ', ')}"></p>
     </p>
+    <div>
+        <input type="checkbox" id="visible" th:field="*{visible}" name="visible" checked />
+        <label for="visible">Visible for all</label>
+    </div>
     <p><input type="submit" value="Submit"/> <input type="reset" value="Reset"/></p>
 </form>
+
 </body>
 </html>

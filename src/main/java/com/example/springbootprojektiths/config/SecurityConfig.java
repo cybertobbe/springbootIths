@@ -10,6 +10,7 @@ import org.springframework.security.access.hierarchicalroles.RoleHierarchy;
 import org.springframework.security.access.hierarchicalroles.RoleHierarchyImpl;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
@@ -19,6 +20,7 @@ import org.springframework.security.web.SecurityFilterChain;
 import java.util.Map;
 
 @Configuration
+@EnableWebSecurity
 public class SecurityConfig extends DefaultOAuth2UserService {
 
     Logger logger = LoggerFactory.getLogger(SecurityConfig.class);
@@ -30,14 +32,15 @@ public class SecurityConfig extends DefaultOAuth2UserService {
 
     @Bean
     SecurityFilterChain web(HttpSecurity http) throws Exception {
-        http
-                .authorizeHttpRequests((requests) -> requests
-                        .requestMatchers("/", "/login", "/oauth/**", "/logout", "/error**").permitAll()
-                        .requestMatchers("/web/create").hasRole("ADMIN")
-                        .anyRequest().authenticated()
-                )
-                .oauth2Login(Customizer.withDefaults());
-        return http.build();
+        return http
+                .authorizeHttpRequests(auth -> {
+                    auth.requestMatchers("/homepage").permitAll();
+                    auth.anyRequest().authenticated();
+
+                })
+                .oauth2Login(Customizer.withDefaults())
+                .build();
+
     }
 
 
@@ -48,13 +51,14 @@ public class SecurityConfig extends DefaultOAuth2UserService {
                 "ROLE_USER > ROLE_GUEST");
         return hierarchy;
     }
+
     @Override
     public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
         OAuth2User oidcUser = super.loadUser(userRequest);
         Map<String, Object> attributes = oidcUser.getAttributes();
         logger.info("Attributes: {}", attributes);
         User gitHubUser = new User();
-        //gitHubUser.setId(gitHubUser.getId());
+
         Object idObject = attributes.get("id");
         if (idObject instanceof Integer) {
             Integer idInteger = (Integer) idObject;

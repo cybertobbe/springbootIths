@@ -40,6 +40,14 @@ public class WebController {
 
 
 
+    @RequestMapping(value = "/homepage", method = RequestMethod.GET)
+    public String homepage(Model model){
+        List<Message> messages = messageRepository.findAll();
+        model.addAttribute("messages", messages);
+
+        return "homepage";
+    }
+
     @RequestMapping(value = "/listmessages", method = RequestMethod.GET)
     public String listMessages(
             Model model,
@@ -47,27 +55,16 @@ public class WebController {
             @RequestParam("size") Optional<Integer> size,
             @AuthenticationPrincipal OAuth2User principal) {
 
-        //int githubid = principal.getAttribute("id");
-        //long githubid = (long) githubid;
-
         Object idObject = principal.getAttribute("id");
 
         Integer idInteger = (Integer) idObject;
         var user = userRepository.findById(idInteger.longValue());
         model.addAttribute("person", user.get());
 
-//        if (idObject instanceof Integer) {
-//            Integer idInteger = (Integer) idObject;
-//            var user = userRepository.findById(idInteger.longValue());
-//            model.addAttribute("person", user.get());
-//        } else if (idObject instanceof Long) {
-//            var user = userRepository.findById((Long) idObject);
-//            model.addAttribute("person", user.get());
-//        }
+
         List<Message> messages = messageRepository.findAll();
         model.addAttribute("messages", messages);
-   //     var user = userRepository.findById(id);
-  //      model.addAttribute("person", user.get());
+
         int currentPage = page.orElse(1);
         int pageSize = size.orElse(5);
 
