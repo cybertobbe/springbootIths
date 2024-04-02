@@ -10,7 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.Instant;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -103,7 +105,8 @@ public class MessageControllerRest {
             existingMessage.setAuthor(updatedMessage.getAuthor());
             existingMessage.setVisible(updatedMessage.isVisible());
             existingMessage.setUser(updatedMessage.getUser());
-            existingMessage.setDate(LocalDate.now());
+            existingMessage.setLastModifiedDate(Instant.from(LocalDateTime.now()));
+            //existingMessage.setLastModifiedDate(LocalDateTime.now());
             // Save the updated message back to the repository
 
             messageRepository.save(existingMessage);

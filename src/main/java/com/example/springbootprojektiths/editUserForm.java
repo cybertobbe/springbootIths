@@ -12,14 +12,14 @@ public class editUserForm {
     private String fullName;
 
     @Size(min = 1, max = 100)
-    private String loginName;
+    private String userName;
     @Size(min = 1, max = 100)
     private String mail;
 
-    public editUserForm(Long id, String fullName, String loginName, String mail) {
+    public editUserForm(Long id, String fullName, String userName, String mail) {
         this.id = id;
         this.fullName = fullName;
-        this.loginName = loginName;
+        this.userName = userName;
         this.mail = mail;
     }
 
@@ -39,12 +39,12 @@ public class editUserForm {
         this.fullName = fullName;
     }
 
-    public String getLoginName() {
-        return loginName;
+    public String getUserName() {
+        return userName;
     }
 
-    public void setLoginName(String loginName) {
-        this.loginName = loginName;
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
     public String getMail() {
@@ -53,5 +53,18 @@ public class editUserForm {
 
     public void setMail(String mail) {
         this.mail = mail;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        editUserForm other = (editUserForm) obj;
+        return userName != null ? userName.equals(other.userName) : other.userName == null;
+    }
+
+    @Override
+    public int hashCode() {
+        return userName != null ? userName.hashCode() : 0;
     }
 }

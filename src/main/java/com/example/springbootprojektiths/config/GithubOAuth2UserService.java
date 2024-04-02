@@ -24,7 +24,7 @@ public class GithubOAuth2UserService extends DefaultOAuth2UserService {
     GitHubService gitHubService;
     UserRepository userRepository;
 
-    public GithubOAuth2UserService(GitHubService gitHubService,UserRepository userRepository) {
+    public GithubOAuth2UserService(GitHubService gitHubService, UserRepository userRepository) {
         this.gitHubService = gitHubService;
         this.userRepository = userRepository;
     }
@@ -34,6 +34,7 @@ public class GithubOAuth2UserService extends DefaultOAuth2UserService {
     public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
         OAuth2User oidcUser = super.loadUser(userRequest);
         Map<String, Object> attributes = oidcUser.getAttributes();
+        logger.info("Attributes: {}", attributes);
         // Long gitHubUserId = Long.parseLong((String) attributes.get("id"));
         Object idObject = attributes.get("id");
         Integer idInteger = (Integer) idObject;
@@ -44,14 +45,25 @@ public class GithubOAuth2UserService extends DefaultOAuth2UserService {
             gitHubUser = optionalUser.get();
 
         } else {
-
+            OAuth2AccessToken accessToken = userRequest.getAccessToken();
             gitHubUser = new User();
             gitHubUser.setId(Long.valueOf(idInteger));
             String fullName = (String) attributes.get("name");
             gitHubUser.setFullName(fullName);
+            String userName = (String) attributes.get("login");
+            System.out.println(userName);
+            gitHubUser.setUserName(userName);
+            List<Email> result = gitHubService.getEmails(accessToken);
 
+            for (Email email : result) {
+                if (email.primary()) {
+                    String emailAddress = email.email();
+                    System.out.println("Primary Email Address: " + emailAddress);
+                    gitHubUser.setMail(emailAddress);
+                    break;
+                }
+            }
         }
-
        // updateChangedUserInfo(gitHubUser, attributes);
 
         userRepository.save(gitHubUser);

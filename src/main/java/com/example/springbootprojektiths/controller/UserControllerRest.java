@@ -10,7 +10,7 @@ import java.util.Optional;
 
 @RestController
 public class UserControllerRest {
-    // todo lägg till admin
+
     UserRepository userRepository;
 
     public UserControllerRest(UserRepository userRepository) {
@@ -52,8 +52,7 @@ public class UserControllerRest {
 
             // Update the existing user's fields with the data from the updatedUser object
             existingUser.setFullName(updatedUser.getFullName());
-            existingUser.setLoginName(updatedUser.getLoginName());
-            existingUser.setPassword(updatedUser.getPassword());
+            existingUser.setUserName(updatedUser.getUserName());
             existingUser.setMail(updatedUser.getMail());
 
             userRepository.save(existingUser);
