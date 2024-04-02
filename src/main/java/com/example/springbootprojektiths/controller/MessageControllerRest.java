@@ -66,6 +66,7 @@ public class MessageControllerRest {
         return message;
     }
 
+
     // add message
     @PostMapping("/message/{id}")
     ResponseEntity<Void> createMessage(@PathVariable("id") Long id, @RequestBody Message message) {
@@ -102,7 +103,7 @@ public class MessageControllerRest {
             Message existingMessage = existingMessageOptional.get();
             existingMessage.setTitle(updatedMessage.getTitle());
             existingMessage.setChatMessage(updatedMessage.getChatMessage());
-            existingMessage.setAuthor(updatedMessage.getAuthor());
+      //      existingMessage.setAuthor(updatedMessage.getAuthor());
             existingMessage.setVisible(updatedMessage.isVisible());
             existingMessage.setUser(updatedMessage.getUser());
             existingMessage.setLastModifiedDate(Instant.from(LocalDateTime.now()));

@@ -19,7 +19,6 @@ public class Message {
     private Long id;
     private String title;
     private String chatMessage;
-    private String author;
     private boolean visible = false;
 
     @ManyToOne(cascade = CascadeType.PERSIST)
@@ -34,8 +33,12 @@ public class Message {
     private Instant lastModifiedDate;
     public Message() {
         this.date = LocalDate.now();
+
     }
 
+    public String getUserName(){
+        return this.user.getUserName();
+    }
 
     public Instant getLastModifiedDate() {
         return lastModifiedDate;
@@ -67,14 +70,6 @@ public class Message {
 
     public void setChatMessage(String chatMessage) {
         this.chatMessage = chatMessage;
-    }
-
-    public String getAuthor() {
-        return author;
-    }
-
-    public void setAuthor(String author) {
-        this.author = author;
     }
 
     public boolean isVisible() {
