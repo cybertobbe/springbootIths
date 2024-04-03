@@ -35,15 +35,17 @@ public class Message {
 
     }
 
-    @PrePersist
-    protected void onCreate() {
-        Date createdOn = new Date();
-    }
-
-    @PreUpdate
-    protected void onUpdate() {
-        Date lastUpdate = new Date();
-    }
+//For no "last modified date" when creating a message
+//
+//    @PrePersist
+//    protected void onCreate() {
+//        Date createdOn = new Date();
+//    }
+//
+//    @PreUpdate
+//    protected void onUpdate() {
+//        Date lastUpdate = new Date();
+//    }
 
     public String getUserName(){
         return this.user.getUserName();
