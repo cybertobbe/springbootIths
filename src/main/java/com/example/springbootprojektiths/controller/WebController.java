@@ -2,6 +2,7 @@ package com.example.springbootprojektiths.controller;
 
 import com.example.springbootprojektiths.CreateNewMessageForm;
 import com.example.springbootprojektiths.EditMessageForm;
+import com.example.springbootprojektiths.config.ImageUploader;
 import com.example.springbootprojektiths.editUserForm;
 import com.example.springbootprojektiths.entity.Message;
 import com.example.springbootprojektiths.entity.User;
@@ -24,6 +25,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Base64;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -41,7 +43,8 @@ public class WebController {
     @Autowired
     MessageServices messageServices;
 
-
+    @Autowired
+    ImageUploader imageUploader;
 
 
     @RequestMapping(value = "/homepage", method = RequestMethod.GET)
@@ -180,7 +183,12 @@ public class WebController {
         Integer idInteger = (Integer) idObject;
         Optional<User> userOptional = userRepository.findById(idInteger.longValue());
         User user = userOptional.get();
-        model.addAttribute("userData", new editUserForm(user.getId(), user.getFullName(), user.getUserName(), user.getMail()) );
+
+        if (user.getImageData() != null) {
+            String base64Image = Base64.getEncoder().encodeToString(user.getImageData());
+            model.addAttribute("imageData", base64Image);
+        }
+                model.addAttribute("userData", new editUserForm(user.getId(), user.getFullName(), user.getUserName(), user.getMail()) );
               return "userSettings";
     }
     @PostMapping("/userSettings")
@@ -190,7 +198,6 @@ public class WebController {
         Optional<User> userOptional = userRepository.findById(idInteger.longValue());
         if (userOptional.isPresent()) {
             User user = userOptional.get();
-
             user.setFullName(userForm.getFullName());
             user.setUserName(userForm.getUserName());
             user.setMail(userForm.getMail());
@@ -202,66 +209,56 @@ public class WebController {
         }
     }
 
-    public static String UPLOAD_DIRECTORY = System.getProperty("user.dir") + "/uploads";
 
-    @GetMapping("/uploadimage") public String displayUploadForm() {
-        return "test";
+    @PostMapping("/uploadProfileImage")
+    public String uploadProfileImage(Model model, @RequestParam("image") MultipartFile file, @AuthenticationPrincipal OAuth2User principal) throws IOException {
+        Object idObject = principal.getAttribute("id");
+        Integer idInteger = (Integer) idObject;
+        Optional<User> userOptional = userRepository.findById(idInteger.longValue());
+        User user = userOptional.get();
+        user.setImageData(file.getBytes());
+        userRepository.save(user);
+        return "redirect:/userSettings";
     }
 
-    @PostMapping("/upload") public String uploadImage(Model model, @RequestParam("image") MultipartFile file) throws IOException {
-        StringBuilder fileNames = new StringBuilder();
-        Path fileNameAndPath = Paths.get(UPLOAD_DIRECTORY, file.getOriginalFilename());
-        fileNames.append(file.getOriginalFilename());
-        Files.write(fileNameAndPath, file.getBytes());
-        model.addAttribute("msg", "Uploaded images: " + fileNames.toString());
-        return "test";
+
+/*
+
+
+    @PostMapping("/editDog/{id}")
+    public String submitEditMessage(@PathVariable Long id, Model model, @ModelAttribute("formData") editDogFormData messageForm
+    ) {
+
+        Optional<Dog> optionalMessage = dogRepository.findById(id);
+
+        if (optionalMessage.isPresent()) {
+            Dog message = optionalMessage.get();
+
+
+            message.setName(messageForm.getName());
+            message.setAge(messageForm.getAge());
+
+            dogRepository.save(message);
+            return "redirect:/";
+        } else {
+            return "redirect:/error";
+        }
+
     }
 
-/*    @PostMapping("/upload")
-    @ResponseBody
-    public String uploadFile(@RequestParam("file") MultipartFile file) {
-        if (file.isEmpty()) {
-            return "Please select a file to upload";
+    @PostMapping("/uploadWithDogId")
+    public String uploadImageWithDogId(Model model, @RequestParam("image") MultipartFile file, @RequestParam("dogId") Long dogId) throws IOException {
+        if (dogId == null) {
+            return "error";
         }
 
-        try {
-            // Get the file and save it
-            String fileName = file.getOriginalFilename();
-            String filePath = "path/to/your/uploads/" + fileName; // Change this to your desired file path
-            File dest = new File(filePath);
-            file.transferTo(dest);
-            return "File uploaded successfully";
-        } catch (IOException e) {
-            e.printStackTrace();
-            return "Failed to upload file";
-        }
+        Dog dog = dogRepository.findById(dogId).orElseThrow(() -> new IllegalArgumentException("Invalid Dog Id: " + dogId));
+        dog.setImageData(file.getBytes());
+        dogRepository.save(dog);
+
+        model.addAttribute("msg", "Uploaded image for " + dog.getName());
+        return "redirect:/editDog/" + dogId;
     }*/
-
-        //Prova denna när vi ska ladda upp profilbild?? Måste ändra i databasen först med flyway.
-//    @PostMapping("/upload")
-//    public String uploadFile(@RequestParam("file") MultipartFile file, @RequestParam("userId") Long userId) {
-//        // Ladda upp filen och spara den på servern
-//        String fileName = file.getOriginalFilename();
-//        String filePath = "/path/to/upload/directory/" + fileName;
-//        try {
-//            File dest = new File(filePath);
-//            file.transferTo(dest);
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//            return "Failed to upload file.";
-//        }
-//
-//        // Spara sökvägen till filen i användarprofilen
-//        Optional<User> optionalUser = userRepository.findById(userId);
-//        if (optionalUser.isPresent()) {
-//            User user = optionalUser.get();
-//            user.setProfilePicture(filePath);
-//            userRepository.save(user);
-//            return "File uploaded successfully.";
-//        } else {
-//            return "User not found.";
-//        }
-//    }
 }
 
 

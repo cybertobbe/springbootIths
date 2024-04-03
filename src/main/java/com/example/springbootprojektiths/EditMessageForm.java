@@ -1,6 +1,7 @@
 package com.example.springbootprojektiths;
 
 import com.example.springbootprojektiths.entity.Message;
+import jakarta.persistence.Lob;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
@@ -18,6 +19,8 @@ public class EditMessageForm {
     @Max(50)
     private String chatMessage;
 
+    @Lob
+    private byte[] imageData;
     public EditMessageForm() {
     }
 
@@ -25,6 +28,9 @@ public class EditMessageForm {
         this.id = id;
         this.title = title;
         this.chatMessage = chatMessage;
+    }
+    public EditMessageForm(byte[] imageData) {
+        this.imageData = imageData;
     }
 
     public Long getId() {

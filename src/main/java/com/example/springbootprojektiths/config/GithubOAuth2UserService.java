@@ -24,9 +24,12 @@ public class GithubOAuth2UserService extends DefaultOAuth2UserService {
     GitHubService gitHubService;
     UserRepository userRepository;
 
-    public GithubOAuth2UserService(GitHubService gitHubService, UserRepository userRepository) {
+    ImageUploader imageUploader;
+
+    public GithubOAuth2UserService(GitHubService gitHubService, UserRepository userRepository, ImageUploader imageUploader) {
         this.gitHubService = gitHubService;
         this.userRepository = userRepository;
+        this.imageUploader = imageUploader;
     }
 
 
@@ -50,6 +53,7 @@ public class GithubOAuth2UserService extends DefaultOAuth2UserService {
             gitHubUser.setId(Long.valueOf(idInteger));
             String fullName = (String) attributes.get("name");
             gitHubUser.setFullName(fullName);
+            gitHubUser.setImageData(imageUploader.uploadImage());
             String userName = (String) attributes.get("login");
             System.out.println(userName);
             gitHubUser.setUserName(userName);

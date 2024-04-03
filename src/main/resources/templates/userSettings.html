@@ -10,11 +10,16 @@
     <a href="http://localhost:8080/userSettings?lang=sv">Svenska</a>
 </div>
 
-<img src="../static/images/profile.jpeg" th:src="@{images/profile.jpeg}" alt="no image right now">
-<form action="/upload" method="post" enctype="multipart/form-data">
-    <input type="file" name="file" accept="image/*">
-    <button type="submit" th:text="#{upload}"></button>
+<form method="post" th:action="@{/uploadProfileImage}" enctype="multipart/form-data">
+    <input type="hidden" name="person" th:value="${userData.id}">
+    <div class="form-group">
+        <input type="file" name="image" accept="image/*" class="form-control-file">
+    </div>
+    <img th:if="${imageData != null}" th:src="'data:image/jpeg;base64,' + ${imageData}" alt="person Image">
+    <button type="submit" name="upload" th:text="#{upload}"></button>
 </form>
+
+
 
 <form action="#" th:action="@{/userSettings}" th:object="${userData}" method="post">
     
@@ -29,5 +34,6 @@
 
     <button type="submit" th:text="#{submit}"></button>
 </form>
+
 </body>
 </html>
