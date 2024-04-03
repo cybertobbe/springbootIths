@@ -5,25 +5,29 @@
     <title>Title</title>
 </head>
 <body>
+<div>
+    <a href="http://localhost:8080/userSettings?lang=en">English</a>
+    <a href="http://localhost:8080/userSettings?lang=sv">Svenska</a>
+</div>
 
 <img src="../static/images/profile.jpeg" th:src="@{images/profile.jpeg}" alt="no image right now">
 <form action="/upload" method="post" enctype="multipart/form-data">
     <input type="file" name="file" accept="image/*">
-    <button type="submit">Upload</button>
+    <button type="submit" th:text="#{upload}"></button>
 </form>
 
 <form action="#" th:action="@{/userSettings}" th:object="${userData}" method="post">
     
-    <label for="fullName">Full Name:</label>
+    <label for="fullName" th:text="#{full.name}"></label>
     <input id="fullName" type="text" th:field="*{fullName}" />
 
-    <label for="userName">Username:</label>
+    <label for="userName" th:text="#{user}"></label>
     <input id="userName" type="text" th:field="*{userName}" />
 
-    <label for="email">Email:</label>
+    <label for="email" th:text="#{email}"></label>
     <input id="email" type="text" th:field="*{mail}" />
 
-    <button type="submit">Submit</button>
+    <button type="submit" th:text="#{submit}"></button>
 </form>
 </body>
 </html>
