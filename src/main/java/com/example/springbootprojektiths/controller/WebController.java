@@ -75,14 +75,26 @@ public class WebController {
 
 
         List<Message> messages = messageRepository.findAll();
+        for (Message message : messages) {
+            byte[] imageData = message.getUser().getImageData();
+            if (imageData != null) {
+                String base64Image = Base64.getEncoder().encodeToString(imageData);
+                message.getUser().setImageBase64(base64Image); // Assuming there's a setter for Base64 image in User class
+            }
+        }
+
+
         model.addAttribute("messages", messages);
+
 
         int currentPage = page.orElse(1);
         int pageSize = size.orElse(5);
 
         Page<Message> messagePage = messageServices.findPaginated(PageRequest.of(currentPage - 1, pageSize));
 
+
         model.addAttribute("messagePage", messagePage);
+
 
         int totalPages = messagePage.getTotalPages();
         if (totalPages > 0) {
