@@ -17,6 +17,9 @@
 
 <h1>Logged in as</h1>
 <h1 th:text="${person.fullName}"></h1>
+<!--<a th:href="@{/userSettings}"></a>-->
+<a href="#" th:href="@{/userSettings}" th:text="profile"></a>
+<a th:href="@{http://localhost:8080/logout}">Logout</a>
 
 <table>
     <thead>
@@ -35,6 +38,7 @@
         <td th:text="${message?.date}"></td>
     </tr>
     </tbody>
+
 </table>
 
 
