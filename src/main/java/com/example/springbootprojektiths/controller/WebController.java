@@ -129,6 +129,16 @@ public class WebController {
                 return "yourMessages";
     }
 
+    @GetMapping("/yourMessages/{userId}")
+    public String editMessages2(Model model, @PathVariable Long userId){
+
+        List<Message> messages = messageRepository.findAll();
+        model.addAttribute("userId", userId);
+        model.addAttribute("messages", messages);
+        return "yourMessages";
+
+    }
+
     @GetMapping("/editMessage/{id}")
     public String editMessage(@PathVariable Long id, Model model){
         Optional<Message> message = messageRepository.findById(id);

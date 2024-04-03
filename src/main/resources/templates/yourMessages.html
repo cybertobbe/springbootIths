@@ -22,14 +22,15 @@
     </tr>
     </thead>
     <tbody th:each ="message : ${messages}">
-    <tr>
+    <tr th:if="${message?.user.id eq userId}">
 
         <td th:text="${message?.title}"></td>
         <td th:text="${message?.chatMessage}"></td>
         <td th:text="${message?.user.userName}"></td>
         <td th:text="${message?.date}"></td>
-        <td><a th:href="@{/editMessage/{id}(id=${message.id})}">Edit</a></td>
-
+        <td>
+            <a th:href="@{/editMessage/{id}(id=${message.id})}">Edit</a>
+        </td>
 
     </tr>
     </tbody>

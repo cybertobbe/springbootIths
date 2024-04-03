@@ -50,6 +50,6 @@
 </div>
 
 <a th:href="@{createNewMessage}" th:text="#{create.new.message}"></a>
-<a th:href="@{yourMessages}" th:text="#{edit.your.message}"></a>
+<a th:href="@{'/yourMessages/' + ${person.id}}" th:text="#{edit.your.message}"></a>
 </body>
 </html>
