@@ -22,8 +22,10 @@
 <h1 th:text="#{logged.in.as}"></h1>
 <h1 th:text="${person.fullName}"></h1>
 <!--<a th:href="@{/userSettings}"></a>-->
-<a href="#" th:href="@{/userSettings}" th:text="profile"></a>
-<a th:href="@{http://localhost:8080/logout}">Logout</a>
+
+<a href="#" th:href="@{/userSettings}" th:text="#{profile}"></a>
+<a th:href="@{http://localhost:8080/logout}" th:text="#{logout}"></a>
+
 
 <table>
     <thead>
@@ -49,10 +51,7 @@
         <td th:text="${message?.chatMessage}"></td>
 
         <td th:text="${#dates.format(message?.createdDate, 'yyyy-MM-dd HH:mm')}"></td>
-        <td th:if="${message.lastModifiedDate != null}" th:text="${#dates.format(message?.lastModifiedDate, 'yyyy-MM-dd HH:mm')}" ></td>
-        <td th:unless="${message.lastModifiedDate != null}"></td> <!-- Empty cell if lastModifiedDate is null -->
-        <!-- Use the Base64-encoded image data directly -->
-
+        <td th:text="${message?.user.userName + ', ' + #dates.format(message?.lastModifiedDate, 'yyyy-MM-dd HH:mm')}"></td>
     </tr>
     </tbody>
 

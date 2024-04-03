@@ -3,6 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <style>
+        table, th, td {
+            border: 1px solid black;
+        }
+    </style>
 </head>
 <body>
 
@@ -15,7 +20,7 @@
     <thead>
     <tr>
 
-<a href="http://localhost:8080/login">Login</a>
+<a href="http://localhost:8080/login" th:text="#{login}"></a>
 <table>
     <thead>
     <tr>
@@ -25,6 +30,7 @@
         <th th:text="#{message.body}"></th>
         <th th:text="#{user}"></th>
         <th th:text="#{date}"></th>
+        <th th:text="#{lastModifiedDate}"></th>
     </tr>
     </thead>
     <tbody th:if="${message.visible == true}" th:each ="message : ${messages}">
@@ -32,11 +38,11 @@
         <td th:text="${message?.title}"></td>
         <td th:text="${message?.chatMessage}"></td>
         <td th:text="${message?.user.userName}"></td>
-        <td th:text="${message?.date}"></td>
+        <td th:text="${#dates.format(message?.createdDate, 'yyyy-MM-dd HH:mm')}"></td>
+        <td th:text="${#dates.format(message?.lastModifiedDate, 'yyyy-MM-dd HH:mm')}"></td>
     </tr>
     </tbody>
 </table>
-
-
+</table>
 </body>
 </html>
