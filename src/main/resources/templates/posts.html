@@ -17,6 +17,9 @@
 
 <h1>Logged in as</h1>
 <h1 th:text="${person.fullName}"></h1>
+<!--<a th:href="@{/userSettings}"></a>-->
+<a href="#" th:href="@{/userSettings}" th:text="profile"></a>
+<a th:href="@{http://localhost:8080/logout}">Logout</a>
 
 <table>
     <thead>
@@ -38,6 +41,7 @@
         <td th:unless="${message.lastModifiedDate != null}"></td> <!-- Empty cell if lastModifiedDate is null -->
     </tr>
     </tbody>
+
 </table>
 
 
@@ -49,6 +53,6 @@
 </div>
 
 <a th:href="@{createNewMessage}" th:text="#{create.new.message}"></a>
-<a th:href="@{yourMessages}" th:text="#{edit.your.message}"></a>
+<a th:href="@{'/yourMessages/' + ${person.id}}" th:text="#{edit.your.message}"></a>
 </body>
 </html>

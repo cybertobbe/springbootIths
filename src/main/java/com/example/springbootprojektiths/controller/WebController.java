@@ -48,7 +48,6 @@ public class WebController {
     public String homepage(Model model){
         List<Message> messages = messageRepository.findAll();
         model.addAttribute("messages", messages);
-
         return "homepage";
     }
 
@@ -134,6 +133,16 @@ public class WebController {
         List<Message> messages = messageRepository.findAll();
         model.addAttribute("messages", messages);
                 return "yourMessages";
+    }
+
+    @GetMapping("/yourMessages/{userId}")
+    public String editMessages2(Model model, @PathVariable Long userId){
+
+        List<Message> messages = messageRepository.findAll();
+        model.addAttribute("userId", userId);
+        model.addAttribute("messages", messages);
+        return "yourMessages";
+
     }
 
     @GetMapping("/editMessage/{id}")
