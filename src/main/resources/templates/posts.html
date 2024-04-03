@@ -18,8 +18,8 @@
 <h1 th:text="#{logged.in.as}"></h1>
 <h1 th:text="${person.fullName}"></h1>
 <!--<a th:href="@{/userSettings}"></a>-->
-<a href="#" th:href="@{/userSettings}" th:text="profile"></a>
-<a th:href="@{http://localhost:8080/logout}">Logout</a>
+<a href="#" th:href="@{/userSettings}" th:text="#{profile}"></a>
+<a th:href="@{http://localhost:8080/logout}" th:text="#{logout}"></a>
 
 <table>
     <thead>
