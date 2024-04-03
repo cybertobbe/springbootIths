@@ -7,6 +7,10 @@
         table, th, td {
             border: 1px solid black;
         }
+        img.user-image {
+            width: 20px; /* Set the width of the image */
+            height: 20px; /* Set the height of the image */
+        }
     </style>
 </head>
 <body>
@@ -24,23 +28,33 @@
 <table>
     <thead>
     <tr>
+        <th th:text="#{user}"></th>
         <th th:text="#{title}"></th>
         <th th:text="#{message.body}"></th>
-        <th th:text="#{user}"></th>
         <th th:text="#{date}"></th>
         <th th:text="#{lastModifiedDate}"></th>
     </tr>
     </thead>
-    <tbody th:each ="message : ${messagePage.content}">
+    <!-- Add the Base64-encoded image data as a model attribute -->
+    <!-- Add the Base64-encoded image data as a model attribute -->
+
+    <tbody th:each="message : ${messagePage.content}">
     <tr>
+        <td>
+            <img class="user-image" th:src="'data:image/png;base64,' + ${message.user.imageBase64}" alt="User Image"/>
+            <span th:text="${message?.user.userName}"></span>
+           </td>
         <td th:text="${message?.title}"></td>
         <td th:text="${message?.chatMessage}"></td>
-        <td th:text="${message?.user.userName}"></td>
+
         <td th:text="${#dates.format(message?.createdDate, 'yyyy-MM-dd HH:mm')}"></td>
         <td th:if="${message.lastModifiedDate != null}" th:text="${#dates.format(message?.lastModifiedDate, 'yyyy-MM-dd HH:mm')}" ></td>
         <td th:unless="${message.lastModifiedDate != null}"></td> <!-- Empty cell if lastModifiedDate is null -->
+        <!-- Use the Base64-encoded image data directly -->
+
     </tr>
     </tbody>
+
 
 </table>
 

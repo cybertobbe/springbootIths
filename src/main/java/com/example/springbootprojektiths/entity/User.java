@@ -72,7 +72,15 @@ public class User {
     public List<Message> getMessages() {
         return messages;
     }
+    private String imageBase64;
 
+    public String getImageBase64() {
+        return imageBase64;
+    }
+
+    public void setImageBase64(String imageBase64) {
+        this.imageBase64 = imageBase64;
+    }
     public void setMessages(List<Message> messages) {
         this.messages = messages;
     }
