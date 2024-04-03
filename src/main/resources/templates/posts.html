@@ -15,7 +15,7 @@
     <a href="http://localhost:8080/listmessages?lang=sv">Svenska</a>
 </div>
 
-<h1>Logged in as</h1>
+<h1 th:text="#{logged.in.as}"></h1>
 <h1 th:text="${person.fullName}"></h1>
 <!--<a th:href="@{/userSettings}"></a>-->
 <a href="#" th:href="@{/userSettings}" th:text="profile"></a>
@@ -26,7 +26,7 @@
     <tr>
         <th th:text="#{title}"></th>
         <th th:text="#{message.body}"></th>
-        <th th:text="#{author}"></th>
+        <th th:text="#{user}"></th>
         <th th:text="#{date}"></th>
         <th th:text="#{lastModifiedDate}"></th>
     </tr>

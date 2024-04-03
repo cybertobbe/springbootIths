@@ -5,24 +5,30 @@
     <title>Title</title>
 </head>
 <body>
-<h1>Edit your message</h1>
+<div>
+    <a th:href="@{'/editMessage/' +  ${formData.id} + '?lang=en'}">English</a>
+    <a th:href="@{'/editMessage/' +  ${formData.id} + '?lang=sv'}">Svenska</a>
+</div>
+<h1 th:text="#{edit.your.message}"></h1>
 
 <form action="#" th:action="@{/editMessage/{id}(id=${formData.id})}"  th:object="${formData}" method="post">
     <p>
         <!-- <label for="title" th:text="${title} + ':'"/>-->
-        <label for="title">Title</label>
+        <label for="title" th:text="#{title}"></label>
         <input id="title" type="text" th:field="*{title}"/>
     <p th:if="${#fields.hasErrors('title')}"
        th:text="${#strings.listJoin(#fields.errors('title'), ', ')}"></p>
 
     <p>
         <!--        <label for="chatMessage" th:text="${formData.chatMessage} + ':'"/>-->
-        <label for="chatMessage">Message</label>
+        <label for="chatMessage" th:text="#{message}"></label>
         <input id="chatMessage" type="text" th:field="*{chatMessage}"/>
     <p th:if="${#fields.hasErrors('chatMessage')}"
        th:text="${#strings.listJoin(#fields.errors('chatMessage'), ', ')}"></p>
     </p>
-    <p><input type="submit" value="Submit"/> <input type="reset" value="Reset"/></p>
+    <p><input type="submit" value="Submit" th:value="#{submit}" />
+        <input type="reset" value="Reset" th:value="#{reset}" />
+    </p>
 </form>
 
 </body>
