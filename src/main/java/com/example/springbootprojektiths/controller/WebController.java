@@ -107,13 +107,25 @@ public class WebController {
         return "createNewMessage";
     }
 
-   @PostMapping("/createNewMessage")
-   public String submitMessage(@Valid @ModelAttribute("formData") CreateNewMessageForm message,
-            BindingResult bindingResult, Model model){
-        if(bindingResult.hasErrors()){
-            return"createNewMessage";
+
+    @PostMapping("/createNewMessage")
+    public String submitMessage(@Valid @ModelAttribute("formData") CreateNewMessageForm message,
+                                BindingResult bindingResult, Model model, @AuthenticationPrincipal OAuth2User principal) {
+
+
+        Object idObject = principal.getAttribute("id");
+
+        Integer idInteger = (Integer) idObject;
+        var user = userRepository.findById(idInteger.longValue());
+
+        if (user != null) {
+            message.setUser(user.get()); 
+            messageRepository.save(message.toEntity());
+        } else {
+                return "error"; // For example
         }
-        messageRepository.save(message.toEntity());
+
+
         return "redirect:/listmessages";
     }
 
