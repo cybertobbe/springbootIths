@@ -27,18 +27,26 @@ import java.util.Map;
 @EnableWebSecurity
 public class SecurityConfig {
 
+
     @Bean
     SecurityFilterChain web(HttpSecurity http) throws Exception {
         return http
-                .authorizeHttpRequests(auth -> {
-                    auth.requestMatchers("/homepage").permitAll();
-                    auth.anyRequest().authenticated();
-
+                .authorizeRequests(authorize -> {
+                    authorize.requestMatchers("/homepage").permitAll();
+                    authorize.anyRequest().authenticated();
                 })
-                .oauth2Login(Customizer.withDefaults())
+                .oauth2Login(oauth2 -> oauth2
+                        .defaultSuccessUrl("/listmessages") // Redirect URL after successful login
+                        .permitAll()
+                )
+                .logout(logout -> logout
+                        .logoutSuccessUrl("/homepage") // Redirect URL after logout
+                        .permitAll()
+                )
                 .build();
-
     }
+
+
 
 
     @Bean

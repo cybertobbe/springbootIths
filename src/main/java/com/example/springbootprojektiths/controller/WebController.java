@@ -48,7 +48,6 @@ public class WebController {
     public String homepage(Model model){
         List<Message> messages = messageRepository.findAll();
         model.addAttribute("messages", messages);
-
         return "homepage";
     }
 
