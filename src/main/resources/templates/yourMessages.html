@@ -27,7 +27,7 @@
         <td th:text="${message?.title}"></td>
         <td th:text="${message?.chatMessage}"></td>
         <td th:text="${message?.user.userName}"></td>
-        <td th:text="${message?.date}"></td>
+        <td th:text="${message?.createdDate}"></td>
         <td>
             <a th:href="@{/editMessage/{id}(id=${message.id})}">Edit</a>
         </td>

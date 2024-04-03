@@ -36,8 +36,8 @@
         <td th:text="${message?.title}"></td>
         <td th:text="${message?.chatMessage}"></td>
         <td th:text="${message?.user.userName}"></td>
-        <td th:text="${message?.date}"></td>
-        <td th:if="${message.lastModifiedDate != null}" th:text="${message?.lastModifiedDate}"></td>
+        <td th:text="${#dates.format(message?.createdDate, 'yyyy-MM-dd HH:mm')}"></td>
+        <td th:if="${message.lastModifiedDate != null}" th:text="${#dates.format(message?.lastModifiedDate, 'yyyy-MM-dd HH:mm')}" ></td>
         <td th:unless="${message.lastModifiedDate != null}"></td> <!-- Empty cell if lastModifiedDate is null -->
     </tr>
     </tbody>
