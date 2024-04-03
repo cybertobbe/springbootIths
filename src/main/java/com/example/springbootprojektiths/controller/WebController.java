@@ -60,9 +60,15 @@ public class WebController {
 
         Object idObject = principal.getAttribute("id");
 
-        Integer idInteger = (Integer) idObject;
-        var user = userRepository.findById(idInteger.longValue());
-        model.addAttribute("person", user.get());
+        if (idObject instanceof Integer) {
+            Integer idInteger = (Integer) idObject;
+            Optional<User> userOptional = userRepository.findById(idInteger.longValue());
+
+            userOptional.ifPresent(user -> model.addAttribute("person", user));
+        } else {
+            // Hantera fallet när id inte är en Integer
+            return "redirect:/error";
+        }
 
 
         List<Message> messages = messageRepository.findAll();

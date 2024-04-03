@@ -6,7 +6,6 @@ import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.Instant;
-import java.time.LocalDate;
 import java.util.Date;
 
 
@@ -25,16 +24,28 @@ public class Message {
     private User user;
 
     @CreatedDate
-    private LocalDate date;
+    private Instant createdDate;
 
     // Spårar när meddelandet senast ändrades
     @LastModifiedDate
     @Column(name = "last_modified_date")
     private Instant lastModifiedDate;
+
     public Message() {
-        this.date = LocalDate.now();
 
     }
+
+//For no "last modified date" when creating a message
+//
+//    @PrePersist
+//    protected void onCreate() {
+//        Date createdOn = new Date();
+//    }
+//
+//    @PreUpdate
+//    protected void onUpdate() {
+//        Date lastUpdate = new Date();
+//    }
 
     public String getUserName(){
         return this.user.getUserName();
@@ -88,11 +99,11 @@ public class Message {
         this.user = user;
     }
 
-    public LocalDate getDate() {
-        return date;
+    public Instant getCreatedDate() {
+        return createdDate;
     }
 
-    public void setDate(LocalDate date) {
-        this.date = date;
+    public void setCreatedDate(Instant createdDate) {
+        this.createdDate = createdDate;
     }
 }
