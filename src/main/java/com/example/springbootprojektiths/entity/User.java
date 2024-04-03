@@ -19,9 +19,10 @@ public class User {
     public User() {
     }
 
-    @Column(name = "image_data")
+    @Column(name = "image_data", columnDefinition = "LONGBLOB")
     @Lob
     private byte[] imageData;
+
 
     public byte[] getImageData() {
         return imageData;
