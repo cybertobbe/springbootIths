@@ -15,7 +15,7 @@
     <a href="http://localhost:8080/listmessages?lang=sv">Svenska</a>
 </div>
 
-<h1>logged in as</h1>
+<h1>Logged in as</h1>
 <h1 th:text="${person.fullName}"></h1>
 
 <table>
@@ -25,6 +25,7 @@
         <th th:text="#{message.body}"></th>
         <th th:text="#{author}"></th>
         <th th:text="#{date}"></th>
+        <th th:text="#{lastModifiedDate}"></th>
     </tr>
     </thead>
     <tbody th:each ="message : ${messagePage.content}">
@@ -33,6 +34,8 @@
         <td th:text="${message?.chatMessage}"></td>
         <td th:text="${message?.author}"></td>
         <td th:text="${message?.date}"></td>
+        <td th:if="${message.lastModifiedDate != null}" th:text="${message?.lastModifiedDate}"></td>
+        <td th:unless="${message.lastModifiedDate != null}"></td> <!-- Empty cell if lastModifiedDate is null -->
     </tr>
     </tbody>
 </table>
