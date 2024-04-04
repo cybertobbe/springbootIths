@@ -8,3 +8,9 @@ services:
       - 'MYSQL_USER=myuser'
     ports:
       - '3306:3306'
+
+  libretranslate:
+    image: 'libretranslate/libretranslate:latest'
+    command: '--load-only en,sv'
+    ports:
+      - '5000:5000'

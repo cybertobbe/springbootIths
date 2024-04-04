@@ -5,6 +5,8 @@ import org.springframework.data.repository.ListCrudRepository;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 public interface MessageRepository extends PagingAndSortingRepository<Message, Long>, ListCrudRepository<Message, Long> {
     @Query("""
             update Message m set m.visible = true where m.id = ?1
@@ -12,4 +14,6 @@ public interface MessageRepository extends PagingAndSortingRepository<Message, L
     @Modifying
     @Transactional
     int setVisible(Long id);
+
+
 }

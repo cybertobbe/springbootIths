@@ -143,18 +143,21 @@ public class WebController {
         return "redirect:/listmessages";
     }
 
+//    @GetMapping("/yourMessages")
+//    public String editMessages(Model model){
+//        List<Message> messages = messageRepository.findAll();
+//        model.addAttribute("messages", messages);
+//                return "yourMessages";
+//    }
+
     @GetMapping("/yourMessages")
-    public String editMessages(Model model){
+    public String editMessages2(@AuthenticationPrincipal OAuth2User principal, Model model){
+        Object idObject = principal.getAttribute("id");
+        Integer idInteger = (Integer) idObject;
+        Optional<User> userOptional = userRepository.findById(idInteger.longValue());
+        User user = userOptional.get();
         List<Message> messages = messageRepository.findAll();
-        model.addAttribute("messages", messages);
-                return "yourMessages";
-    }
-
-    @GetMapping("/yourMessages/{userId}")
-    public String editMessages2(Model model, @PathVariable Long userId){
-
-        List<Message> messages = messageRepository.findAll();
-        model.addAttribute("userId", userId);
+        model.addAttribute("userId", user.getId());
         model.addAttribute("messages", messages);
         return "yourMessages";
 
@@ -234,43 +237,9 @@ public class WebController {
     }
 
 
-/*
 
-
-    @PostMapping("/editDog/{id}")
-    public String submitEditMessage(@PathVariable Long id, Model model, @ModelAttribute("formData") editDogFormData messageForm
-    ) {
-
-        Optional<Dog> optionalMessage = dogRepository.findById(id);
-
-        if (optionalMessage.isPresent()) {
-            Dog message = optionalMessage.get();
-
-
-            message.setName(messageForm.getName());
-            message.setAge(messageForm.getAge());
-
-            dogRepository.save(message);
-            return "redirect:/";
-        } else {
-            return "redirect:/error";
         }
-
     }
-
-    @PostMapping("/uploadWithDogId")
-    public String uploadImageWithDogId(Model model, @RequestParam("image") MultipartFile file, @RequestParam("dogId") Long dogId) throws IOException {
-        if (dogId == null) {
-            return "error";
-        }
-
-        Dog dog = dogRepository.findById(dogId).orElseThrow(() -> new IllegalArgumentException("Invalid Dog Id: " + dogId));
-        dog.setImageData(file.getBytes());
-        dogRepository.save(dog);
-
-        model.addAttribute("msg", "Uploaded image for " + dog.getName());
-        return "redirect:/editDog/" + dogId;
-    }*/
 }
 
 
