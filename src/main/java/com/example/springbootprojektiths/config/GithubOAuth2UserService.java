@@ -23,7 +23,6 @@ public class GithubOAuth2UserService extends DefaultOAuth2UserService {
 
     GitHubService gitHubService;
     UserRepository userRepository;
-
     ImageUploader imageUploader;
 
     public GithubOAuth2UserService(GitHubService gitHubService, UserRepository userRepository, ImageUploader imageUploader) {
@@ -32,13 +31,11 @@ public class GithubOAuth2UserService extends DefaultOAuth2UserService {
         this.imageUploader = imageUploader;
     }
 
-
     @Override
     public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
         OAuth2User oidcUser = super.loadUser(userRequest);
         Map<String, Object> attributes = oidcUser.getAttributes();
         logger.info("Attributes: {}", attributes);
-        // Long gitHubUserId = Long.parseLong((String) attributes.get("id"));
         Object idObject = attributes.get("id");
         Integer idInteger = (Integer) idObject;
         Optional<User> optionalUser = userRepository.findById(idInteger.longValue());
@@ -46,7 +43,6 @@ public class GithubOAuth2UserService extends DefaultOAuth2UserService {
         User gitHubUser;
         if (optionalUser.isPresent()) {
             gitHubUser = optionalUser.get();
-
         } else {
             OAuth2AccessToken accessToken = userRequest.getAccessToken();
             gitHubUser = new User();
@@ -68,25 +64,7 @@ public class GithubOAuth2UserService extends DefaultOAuth2UserService {
                 }
             }
         }
-       // updateChangedUserInfo(gitHubUser, attributes);
-
         userRepository.save(gitHubUser);
-
         return oidcUser;
     }
-
-    private void updateChangedUserInfo(User gitHubUser, Map<String, Object> attributes) {
-        String fullName = (String) attributes.get("name");
-        if (fullName != null && !fullName.equals(gitHubUser.getFullName())) {
-            //gitHubUser.setFullName(fullName);
-        }
-        else {
-            gitHubUser.setFullName(fullName);
-        }
-
-    }
-
-
-
-
 }

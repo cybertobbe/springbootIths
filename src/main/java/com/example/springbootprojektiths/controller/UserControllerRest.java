@@ -24,28 +24,29 @@ public class UserControllerRest {
         userRepository.save(user);
         return ResponseEntity.noContent().build();
     }
+
     // read/show user
     @GetMapping("/user")
     List<User> userList() {
         var user = userRepository.findAll();
         return user;
     }
+
     @GetMapping("/user/{id}")
-    Optional user(@PathVariable("id") Long id){
-       var user = userRepository.findById(id);
+    Optional user(@PathVariable("id") Long id) {
+        var user = userRepository.findById(id);
         return user;
     }
 
     // Delete User
     @DeleteMapping("/user/{id}")
-    public void deleteUser(@PathVariable("id") Long id){
+    public void deleteUser(@PathVariable("id") Long id) {
         userRepository.deleteById(id);
-
     }
 
     // Change User
     @PatchMapping("/user/{id}")
-    ResponseEntity<Void> updateUser(@RequestBody User updatedUser, @PathVariable Long id){
+    ResponseEntity<Void> updateUser(@RequestBody User updatedUser, @PathVariable Long id) {
         Optional<User> optionalUser = userRepository.findById(id);
 
         if (optionalUser.isPresent()) {
@@ -58,17 +59,10 @@ public class UserControllerRest {
 
             userRepository.save(existingUser);
 
-               return ResponseEntity.noContent().build();
+            return ResponseEntity.ok().build();
         } else {
             // If the user with the given ID does not exist, return a response with HTTP status code 404 (Not Found)
             return ResponseEntity.notFound().build();
         }
     }
-
-
-
-    //  name, username, password, profile pic, email
-
-
-
 }

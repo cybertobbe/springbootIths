@@ -15,5 +15,4 @@ public interface MessageRepository extends PagingAndSortingRepository<Message, L
     @Transactional
     int setVisible(Long id);
 
-
 }

@@ -1,6 +1,8 @@
 package com.example.springbootprojektiths.config;
+
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Component;
+
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;

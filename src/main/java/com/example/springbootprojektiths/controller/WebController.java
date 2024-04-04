@@ -48,7 +48,7 @@ public class WebController {
 
 
     @RequestMapping(value = "/homepage", method = RequestMethod.GET)
-    public String homepage(Model model){
+    public String homepage(Model model) {
         List<Message> messages = messageRepository.findAll();
         model.addAttribute("messages", messages);
         return "homepage";
@@ -73,7 +73,6 @@ public class WebController {
             return "redirect:/error";
         }
 
-
         List<Message> messages = messageRepository.findAll();
         for (Message message : messages) {
             byte[] imageData = message.getUser().getImageData();
@@ -83,18 +82,14 @@ public class WebController {
             }
         }
 
-
         model.addAttribute("messages", messages);
-
 
         int currentPage = page.orElse(1);
         int pageSize = size.orElse(5);
 
         Page<Message> messagePage = messageServices.findPaginated(PageRequest.of(currentPage - 1, pageSize));
 
-
         model.addAttribute("messagePage", messagePage);
-
 
         int totalPages = messagePage.getTotalPages();
         if (totalPages > 0) {
@@ -107,24 +102,14 @@ public class WebController {
         return "posts";
     }
 
-/*    @GetMapping("/posts")
-    String posts(Model model ){
-       List<Message> messages = messageRepository.findAll();
-       // List<User> people = userRepository.findAll();
-        model.addAttribute("messages", messages);
-        return "posts";
-    }*/
-
     @GetMapping("/createNewMessage")
-    public String addMessage (Model model) {
+    public String addMessage(Model model) {
         model.addAttribute("formData", new CreateNewMessageForm());
         return "createNewMessage";
     }
 
-
     @PostMapping("/createNewMessage")
-    public String submitMessage(@Valid @ModelAttribute("formData") CreateNewMessageForm message,
-                                BindingResult bindingResult, Model model, @AuthenticationPrincipal OAuth2User principal) {
+    public String submitMessage(@Valid @ModelAttribute("formData") CreateNewMessageForm message, @AuthenticationPrincipal OAuth2User principal) {
 
 
         Object idObject = principal.getAttribute("id");
@@ -133,25 +118,17 @@ public class WebController {
         var user = userRepository.findById(idInteger.longValue());
 
         if (user != null) {
-            message.setUser(user.get()); 
+            message.setUser(user.get());
             messageRepository.save(message.toEntity());
         } else {
-                return "error"; // For example
+            throw new RuntimeException("not found");
         }
-
 
         return "redirect:/listmessages";
     }
 
-//    @GetMapping("/yourMessages")
-//    public String editMessages(Model model){
-//        List<Message> messages = messageRepository.findAll();
-//        model.addAttribute("messages", messages);
-//                return "yourMessages";
-//    }
-
     @GetMapping("/yourMessages")
-    public String editMessages2(@AuthenticationPrincipal OAuth2User principal, Model model){
+    public String editMessages2(@AuthenticationPrincipal OAuth2User principal, Model model) {
         Object idObject = principal.getAttribute("id");
         Integer idInteger = (Integer) idObject;
         Optional<User> userOptional = userRepository.findById(idInteger.longValue());
@@ -164,14 +141,14 @@ public class WebController {
     }
 
     @GetMapping("/editMessage/{id}")
-    public String editMessage(@PathVariable Long id, Model model){
+    public String editMessage(@PathVariable Long id, Model model) {
         Optional<Message> message = messageRepository.findById(id);
         model.addAttribute("formData", new EditMessageForm(message.get().getId(), message.get().getTitle(), message.get().getChatMessage()));
         return "editMessage";
     }
 
     @PostMapping("/editMessage/{id}")
-    public String submitEditMessage(@PathVariable Long id, Model model, @ModelAttribute("formData") EditMessageForm messageForm){
+    public String submitEditMessage(@PathVariable Long id, Model model, @ModelAttribute("formData") EditMessageForm messageForm) {
         Optional<Message> optionalMessage = messageRepository.findById(id);
 
         if (optionalMessage.isPresent()) {
@@ -193,7 +170,7 @@ public class WebController {
     }
 
     @GetMapping("/userSettings")
-    public String userPage( @AuthenticationPrincipal OAuth2User principal, Model model){
+    public String userPage(@AuthenticationPrincipal OAuth2User principal, Model model) {
         Object idObject = principal.getAttribute("id");
         Integer idInteger = (Integer) idObject;
         Optional<User> userOptional = userRepository.findById(idInteger.longValue());
@@ -203,11 +180,12 @@ public class WebController {
             String base64Image = Base64.getEncoder().encodeToString(user.getImageData());
             model.addAttribute("imageData", base64Image);
         }
-                model.addAttribute("userData", new editUserForm(user.getId(), user.getFullName(), user.getUserName(), user.getMail()) );
-              return "userSettings";
+        model.addAttribute("userData", new editUserForm(user.getId(), user.getFullName(), user.getUserName(), user.getMail()));
+        return "userSettings";
     }
+
     @PostMapping("/userSettings")
-    public String editUser( @AuthenticationPrincipal OAuth2User principal, Model model, @ModelAttribute("userData") editUserForm userForm ){
+    public String editUser(@AuthenticationPrincipal OAuth2User principal, @ModelAttribute("userData") editUserForm userForm) {
         Object idObject = principal.getAttribute("id");
         Integer idInteger = (Integer) idObject;
         Optional<User> userOptional = userRepository.findById(idInteger.longValue());
@@ -224,9 +202,8 @@ public class WebController {
         }
     }
 
-
     @PostMapping("/uploadProfileImage")
-    public String uploadProfileImage(Model model, @RequestParam("image") MultipartFile file, @AuthenticationPrincipal OAuth2User principal) throws IOException {
+    public String uploadProfileImage(@RequestParam("image") MultipartFile file, @AuthenticationPrincipal OAuth2User principal) throws IOException {
         Object idObject = principal.getAttribute("id");
         Integer idInteger = (Integer) idObject;
         Optional<User> userOptional = userRepository.findById(idInteger.longValue());
@@ -235,12 +212,4 @@ public class WebController {
         userRepository.save(user);
         return "redirect:/userSettings";
     }
-
-
-
-        }
-    }
 }
-
-
-
