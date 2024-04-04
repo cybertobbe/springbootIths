@@ -14,12 +14,14 @@
     <a href="http://localhost:8080/listmessages?lang=sv">Svenska</a>
 </div>
 
-<h1 th:text="#{logged.in.as}"></h1>
-<h1 th:text="${person.fullName}"></h1>
+<div>
+    <h3 th:text="#{logged.in.as}"></h3>
+    <h3 th:text="${person.fullName}"></h3></div>
+
 <!--<a th:href="@{/userSettings}"></a>-->
 
-<a href="#" th:href="@{/userSettings}" th:text="#{profile}"></a>
-<a th:href="@{http://localhost:8080/logout}" th:text="#{logout}"></a>
+<a class="button" href="#" th:href="@{/userSettings}" th:text="#{profile}"></a>
+<a class="button" th:href="@{http://localhost:8080/logout}" th:text="#{logout}"></a>
 
 
 <table>
@@ -42,13 +44,17 @@
             <img class="user-image" th:src="'data:image/png;base64,' + ${message.user.imageBase64}" alt="User Image"/>
             <span th:text="${message?.user.userName}"></span>
            </td>
-        <td th:text="${message?.title}"></td>
+        <td th:text="${message?.title}">
+        </td>
+        <td>
+            <span th:id="'messagebody_' + ${message.id}" th:text="${message?.chatMessage}">Message Body</span>
+            <button class="submit-button" th:attr="data-message-id=${message.id}">Översätt</button>
 
-        <td th:id="'messagebody_' + ${message.id}" th:text="${message?.chatMessage}">Message Body</td>
+        </td>
+
         <td th:text="${#dates.format(message?.createdDate, 'yyyy-MM-dd HH:mm')}"></td>
         <td th:text="${message?.user.userName + ', ' + #dates.format(message?.lastModifiedDate, 'yyyy-MM-dd HH:mm')}"></td>
 
-        <td><button class="submit-button" th:attr="data-message-id=${message.id}">Submit</button></td>
 
 
 
