@@ -27,16 +27,14 @@ public class MessageControllerRest {
     // get all messages
     @GetMapping("/message")
     List<Message> getMessages() {
-        List<Message> messages = messageRepository.findAll();
-        return messages;
+        return messageRepository.findAll();
     }
 
     // get message by id
     @GetMapping("/message/{id}")
     public Optional<Message> getMessage(@PathVariable("id") Long id) {
-        var message = messageRepository.findById(id);
 
-        return message;
+        return messageRepository.findById(id);
     }
 
     // add message
@@ -48,7 +46,7 @@ public class MessageControllerRest {
         User user = optionalUser.orElseThrow(() -> new RuntimeException("User not found with ID: " + id));
 
 
-        List list = user.getMessages();
+        List<Message> list = user.getMessages();
         list.add(message);
         userRepository.save(user);
         return ResponseEntity.ok().build();

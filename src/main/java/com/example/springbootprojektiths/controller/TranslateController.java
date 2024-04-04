@@ -45,9 +45,8 @@ public class TranslateController {
                 String[] parts = chatMessage.split("\\{");
                 String[] translatedParts = parts[1].split(":");
                 String[] textParts = translatedParts[1].split("\"");
-                String translatedText = textParts[1];
 
-                return translatedText;
+                return textParts[1];
             } else {
                 throw new RuntimeException("Translation failed");
             }

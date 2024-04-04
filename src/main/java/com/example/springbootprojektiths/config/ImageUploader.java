@@ -6,6 +6,7 @@ import org.springframework.stereotype.Component;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Arrays;
 
 @Component
 public class ImageUploader {
@@ -19,7 +20,7 @@ public class ImageUploader {
     public byte[] uploadImage() {
         try {
             Path imagePath = Path.of(resourceLoader.getResource("classpath:static/images/profile.jpeg").getURI());
-            System.out.println(Files.readAllBytes(imagePath));
+            System.out.println(Arrays.toString(Files.readAllBytes(imagePath)));
             return Files.readAllBytes(imagePath);
 
         } catch (IOException e) {

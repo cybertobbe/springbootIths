@@ -113,7 +113,7 @@ public class WebController {
         Integer idInteger = (Integer) idObject;
         var user = userRepository.findById(idInteger.longValue());
 
-        if (user != null) {
+        if (user.isPresent()) {
             message.setUser(user.get());
             messageRepository.save(message.toEntity());
         } else {
@@ -144,7 +144,7 @@ public class WebController {
     }
 
     @PostMapping("/editMessage/{id}")
-    public String submitEditMessage(@PathVariable Long id, Model model, @ModelAttribute("formData") EditMessageForm messageForm) {
+    public String submitEditMessage(@PathVariable Long id, @ModelAttribute("formData") EditMessageForm messageForm) {
         Optional<Message> optionalMessage = messageRepository.findById(id);
 
         if (optionalMessage.isPresent()) {

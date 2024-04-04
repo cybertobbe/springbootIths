@@ -28,14 +28,12 @@ public class UserControllerRest {
     // read/show user
     @GetMapping("/user")
     List<User> userList() {
-        var user = userRepository.findAll();
-        return user;
+        return userRepository.findAll();
     }
 
     @GetMapping("/user/{id}")
     Optional user(@PathVariable("id") Long id) {
-        var user = userRepository.findById(id);
-        return user;
+        return userRepository.findById(id);
     }
 
     // Delete User
