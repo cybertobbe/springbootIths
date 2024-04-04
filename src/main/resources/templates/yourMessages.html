@@ -24,6 +24,7 @@
         <th th:text="#{message.body}"></th>
         <th th:text="#{user}"></th>
         <th th:text="#{date}"></th>
+        <th th:text="#{lastModifiedDate}"></th>
         <th th:text="#{edit}"></th>
     </tr>
     </thead>
@@ -33,7 +34,8 @@
         <td th:text="${message?.title}"></td>
         <td th:text="${message?.chatMessage}"></td>
         <td th:text="${message?.user.userName}"></td>
- <td th:text="${message?.createdDate}"></td>
+        <td th:text="${#dates.format(message?.createdDate, 'yyyy-MM-dd HH:mm')}"></td>
+        <td th:text="${message?.user.userName + ', ' + #dates.format(message?.lastModifiedDate, 'yyyy-MM-dd HH:mm')}"></td>
 
         <td><a th:href="@{/editMessage/{id}(id=${message.id})}" th:text="#{edit}"></a></td>
 

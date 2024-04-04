@@ -7,6 +7,10 @@
         table, th, td {
             border: 1px solid black;
         }
+        img.user-image {
+            width: 20px; /* Set the width of the image */
+            height: 20px; /* Set the height of the image */
+        }
     </style>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -21,22 +25,33 @@
 <h1 th:text="#{logged.in.as}"></h1>
 <h1 th:text="${person.fullName}"></h1>
 <!--<a th:href="@{/userSettings}"></a>-->
-<a href="#" th:href="@{/userSettings}" th:text="profile"></a>
-<a th:href="@{http://localhost:8080/logout}">Logout</a>
+
+<a href="#" th:href="@{/userSettings}" th:text="#{profile}"></a>
+<a th:href="@{http://localhost:8080/logout}" th:text="#{logout}"></a>
+
 
 <table>
     <thead>
     <tr>
+        <th th:text="#{user}"></th>
         <th th:text="#{title}"></th>
         <th th:text="#{message.body}"></th>
-        <th th:text="#{user}"></th>
         <th th:text="#{date}"></th>
         <th th:text="#{lastModifiedDate}"></th>
     </tr>
+
     </thead>
-    <tbody th:each ="message : ${messagePage.content}">
+    <!-- Add the Base64-encoded image data as a model attribute -->
+    <!-- Add the Base64-encoded image data as a model attribute -->
+
+    <tbody th:each="message : ${messagePage.content}">
     <tr>
+        <td>
+            <img class="user-image" th:src="'data:image/png;base64,' + ${message.user.imageBase64}" alt="User Image"/>
+            <span th:text="${message?.user.userName}"></span>
+           </td>
         <td th:text="${message?.title}"></td>
+
         <td th:id="'messagebody_' + ${message.id}" th:text="${message?.chatMessage}">Message Body</td>
         <td th:text="${message?.user.userName}"></td>
         <td th:text="${#dates.format(message?.createdDate, 'yyyy-MM-dd HH:mm')}"></td>
@@ -46,9 +61,11 @@
         <td><button class="submit-button" th:attr="data-message-id=${message.id}">Submit</button></td>
 
 
+
     </tr>
 
     </tbody>
+
 
 </table>
 
