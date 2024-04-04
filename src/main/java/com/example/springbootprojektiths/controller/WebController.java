@@ -133,7 +133,7 @@ public class WebController {
         var user = userRepository.findById(idInteger.longValue());
 
         if (user != null) {
-            message.setUser(user.get()); 
+            message.setUser(user.get());
             messageRepository.save(message.toEntity());
         } else {
                 return "error"; // For example
@@ -239,8 +239,8 @@ public class WebController {
 
 
         }
-    }
-}
+
+
 
 
 
