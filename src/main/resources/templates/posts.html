@@ -8,6 +8,9 @@
             border: 1px solid black;
         }
     </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
 </head>
 <body>
 <div>
@@ -34,15 +37,43 @@
     <tbody th:each ="message : ${messagePage.content}">
     <tr>
         <td th:text="${message?.title}"></td>
-        <td th:text="${message?.chatMessage}"></td>
+        <td th:id="'messagebody_' + ${message.id}" th:text="${message?.chatMessage}">Message Body</td>
         <td th:text="${message?.user.userName}"></td>
         <td th:text="${#dates.format(message?.createdDate, 'yyyy-MM-dd HH:mm')}"></td>
         <td th:if="${message.lastModifiedDate != null}" th:text="${#dates.format(message?.lastModifiedDate, 'yyyy-MM-dd HH:mm')}" ></td>
         <td th:unless="${message.lastModifiedDate != null}"></td> <!-- Empty cell if lastModifiedDate is null -->
+
+        <td><button class="submit-button" th:attr="data-message-id=${message.id}">Submit</button></td>
+
+
     </tr>
+
     </tbody>
 
 </table>
+
+<script>
+    $(document).ready(function () {
+        $('.submit-button').click(function () {
+            var messageId = $(this).data('message-id');
+            callMyFunction(messageId);
+        });
+    });
+
+
+    function callMyFunction(param1) {
+        var messageBodyId = "#messagebody_" + param1;
+        $.ajax({
+            type: "GET",
+            url: "/translate/" + param1,
+            success: function (response) {
+                // $('#response').html(response);
+                $(messageBodyId).text(response);
+            }
+        });
+    }
+</script>
+
 
 
 <div th:if="${messagePage.totalPages > 0}" class="pagination"
@@ -53,6 +84,6 @@
 </div>
 
 <a th:href="@{createNewMessage}" th:text="#{create.new.message}"></a>
-<a th:href="@{'/yourMessages/' + ${person.id}}" th:text="#{edit.your.message}"></a>
+<a th:href="@{/yourMessages}" th:text="#{edit.your.message}"></a>
 </body>
 </html>

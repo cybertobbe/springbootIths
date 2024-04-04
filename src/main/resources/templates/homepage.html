@@ -32,7 +32,7 @@
         <td th:text="${message?.title}"></td>
         <td th:text="${message?.chatMessage}"></td>
         <td th:text="${message?.user.userName}"></td>
-        <td th:text="${message?.date}"></td>
+        <td th:text="${#dates.format(message?.createdDate, 'yyyy-MM-dd HH:mm')}"></td>
     </tr>
     </tbody>
 </table>

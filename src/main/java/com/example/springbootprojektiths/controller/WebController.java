@@ -128,18 +128,21 @@ public class WebController {
         return "redirect:/listmessages";
     }
 
+//    @GetMapping("/yourMessages")
+//    public String editMessages(Model model){
+//        List<Message> messages = messageRepository.findAll();
+//        model.addAttribute("messages", messages);
+//                return "yourMessages";
+//    }
+
     @GetMapping("/yourMessages")
-    public String editMessages(Model model){
+    public String editMessages2(@AuthenticationPrincipal OAuth2User principal, Model model){
+        Object idObject = principal.getAttribute("id");
+        Integer idInteger = (Integer) idObject;
+        Optional<User> userOptional = userRepository.findById(idInteger.longValue());
+        User user = userOptional.get();
         List<Message> messages = messageRepository.findAll();
-        model.addAttribute("messages", messages);
-                return "yourMessages";
-    }
-
-    @GetMapping("/yourMessages/{userId}")
-    public String editMessages2(Model model, @PathVariable Long userId){
-
-        List<Message> messages = messageRepository.findAll();
-        model.addAttribute("userId", userId);
+        model.addAttribute("userId", user.getId());
         model.addAttribute("messages", messages);
         return "yourMessages";
 
@@ -216,6 +219,16 @@ public class WebController {
         model.addAttribute("msg", "Uploaded images: " + fileNames.toString());
         return "test";
     }
+
+
+    @GetMapping("/translate")
+    String translate(Model model) {
+        List<Message> messages = messageRepository.findAll();
+        model.addAttribute("messages",messages);
+        return "translateTest";
+    }
+
+
 
 /*    @PostMapping("/upload")
     @ResponseBody
