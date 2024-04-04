@@ -1,11 +1,11 @@
-package com.example.springbootprojektiths.repository;import com.example.springbootprojektiths.entity.Message;
+package com.example.springbootprojektiths.repository;
+
+import com.example.springbootprojektiths.entity.Message;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.ListCrudRepository;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
 
 public interface MessageRepository extends PagingAndSortingRepository<Message, Long>, ListCrudRepository<Message, Long> {
     @Query("""

@@ -8,7 +8,6 @@ import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.Instant;
-import java.util.Date;
 
 @Getter
 @Setter
@@ -28,7 +27,6 @@ public class Message {
 
     @CreatedDate
     private Instant createdDate;
-
 
     @LastModifiedDate
     @Column(name = "last_modified_date")

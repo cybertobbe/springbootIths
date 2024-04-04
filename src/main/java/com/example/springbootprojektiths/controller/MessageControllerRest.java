@@ -1,9 +1,7 @@
 package com.example.springbootprojektiths.controller;
 
 import com.example.springbootprojektiths.entity.Message;
-
 import com.example.springbootprojektiths.entity.User;
-
 import com.example.springbootprojektiths.repository.MessageRepository;
 import com.example.springbootprojektiths.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
