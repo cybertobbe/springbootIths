@@ -14,7 +14,7 @@ public class DocumentationConfig {
 
                 .info(new Info()
                         .title("SpringbootProjektIths API")
-                        . version("1.0")
+                        .version("1.0")
                         .description("This is the API documentation for the project"));
     }
 }
