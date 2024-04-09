@@ -6,7 +6,11 @@ import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter
+@Setter
 public class EditMessageForm {
     @NotNull
     private Long id;
@@ -21,6 +25,7 @@ public class EditMessageForm {
 
     @Lob
     private byte[] imageData;
+
     public EditMessageForm() {
     }
 
@@ -29,32 +34,9 @@ public class EditMessageForm {
         this.title = title;
         this.chatMessage = chatMessage;
     }
+
     public EditMessageForm(byte[] imageData) {
         this.imageData = imageData;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getChatMessage() {
-        return chatMessage;
-    }
-
-    public void setChatMessage(String chatMessage) {
-        this.chatMessage = chatMessage;
     }
 
     public Message toEntity() {

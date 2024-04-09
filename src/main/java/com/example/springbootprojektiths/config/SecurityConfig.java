@@ -1,5 +1,6 @@
 package com.example.springbootprojektiths.config;
 
+
 import com.example.springbootprojektiths.entity.User;
 import com.example.springbootprojektiths.repository.UserRepository;
 import org.slf4j.Logger;
@@ -7,28 +8,15 @@ import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.retry.annotation.EnableRetry;
-import org.springframework.security.access.hierarchicalroles.RoleHierarchy;
-import org.springframework.security.access.hierarchicalroles.RoleHierarchyImpl;
-import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
-import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
-import org.springframework.security.oauth2.core.OAuth2AccessToken;
-import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
-import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.util.matcher.RequestMatcher;
 import org.springframework.web.client.RestClient;
 
-import java.util.List;
-import java.util.Map;
-
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
-
 
     @Bean
     SecurityFilterChain web(HttpSecurity http) throws Exception {
@@ -53,9 +41,6 @@ public class SecurityConfig {
         return request -> path.equals(request.getServletPath());
     }
 
-
-
-
     @Bean
     static RoleHierarchy roleHierarchy() {
         RoleHierarchyImpl hierarchy = new RoleHierarchyImpl();
@@ -69,6 +54,5 @@ public class SecurityConfig {
     RestClient restClient() {
         return RestClient.create();
     }
-
 }
 

@@ -1,14 +1,10 @@
-
 package com.example.springbootprojektiths.config;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.retry.annotation.Retryable;
 import org.springframework.security.oauth2.core.OAuth2AccessToken;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClient;
-
 
 import java.util.List;
 
@@ -20,11 +16,9 @@ public class GitHubService {
     private final RestClient restClient;
 
     public GitHubService(RestClient restClient) {
-            this.restClient = restClient;
-        }
+        this.restClient = restClient;
+    }
 
-
-    //https://www.baeldung.com/spring-retry
     @Retryable
     public List<Email> getEmails(OAuth2AccessToken accessToken) {
         System.out.println("Getting emails from GitHub...");
@@ -36,6 +30,4 @@ public class GitHubService {
                 .body(new ParameterizedTypeReference<>() {
                 });
     }
-
-
 }
