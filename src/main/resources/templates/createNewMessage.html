@@ -3,6 +3,7 @@
 <head>
     <title>Add a message</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link rel="stylesheet" type="text/css" href="/static/style.css">
 </head>
 <body>
 <div>
@@ -10,29 +11,24 @@
     <a href="http://localhost:8080/createNewMessage?lang=sv">Svenska</a>
 </div>
 <h1 th:text="#{type.your.message}"></h1>
-<form action="#" th:action="@{/createNewMessage}" th:object="${formData}" method="post">
-    <p>
-<!-- <label for="title" th:text="${title} + ':'"/>-->
-        <label for="title" th:text="#{title}"></label>
-        <input id="title" type="text" th:field="*{title}"/>
-    <p th:if="${#fields.hasErrors('title')}"
-       th:text="${#strings.listJoin(#fields.errors('title'), ', ')}"></p>
+<form class="form" action="#" th:action="@{/createNewMessage}" th:object="${formData}" method="post">
 
-    <p>
-<!--        <label for="chatMessage" th:text="${formData.chatMessage} + ':'"/>-->
-        <label for="chatMessage" th:text="#{message}"></label>
-        <input id="chatMessage" type="text" th:field="*{chatMessage}"/>
-    <p th:if="${#fields.hasErrors('chatMessage')}"
-       th:text="${#strings.listJoin(#fields.errors('chatMessage'), ', ')}"></p>
-    </p>
+        <label for="title" th:text="#{title}"></label>
+        <input class="input" id="title" type="text" th:field="*{title}"/>
+
+    <label for="chatMessage" th:text="#{message}"></label>
+    <textarea  rows="5" cols="50" id="chatMessage"  name="comment"  th:field="*{chatMessage}"> </textarea>
+
     <div>
         <input type="checkbox" id="visible" th:field="*{visible}" name="visible" checked />
         <label for="visible" th:text="#{visible.for.all}"></label>
     </div>
-    <p><input type="submit" value="Submit" th:value="#{submit}" />
+    <p>  <input type="submit" value="Submit" th:value="#{submit}" />
         <input type="reset" value="Reset" th:value="#{reset}" />
     </p>
+
 </form>
 
 </body>
 </html>
+

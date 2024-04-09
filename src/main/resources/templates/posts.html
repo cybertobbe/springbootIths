@@ -3,32 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    <style>
-        table, th, td {
-            border: 1px solid black;
-        }
-        img.user-image {
-            width: 20px; /* Set the width of the image */
-            height: 20px; /* Set the height of the image */
-        }
-    </style>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="/static/style.css">
 
 </head>
 <body>
-<div>
+<div class="hej">
     <a href="http://localhost:8080/listmessages?lang=en">English</a>
     <a href="http://localhost:8080/listmessages?lang=sv">Svenska</a>
 </div>
 
-<h1 th:text="#{logged.in.as}"></h1>
-<h1 th:text="${person.fullName}"></h1>
-<!--<a th:href="@{/userSettings}"></a>-->
+<div>
+    <h3 th:text="#{logged.in.as}"></h3>
+    <h3 th:text="${person.fullName}"></h3></div>
 
-<a href="#" th:href="@{/userSettings}" th:text="#{profile}"></a>
-<a th:href="@{http://localhost:8080/logout}" th:text="#{logout}"></a>
-
+<div class="container">
+<a class="button" href="#" th:href="@{/userSettings}" th:text="#{profile}"></a>
+<a class="button" th:href="@{http://localhost:8080/logout}" th:text="#{logout}"></a>
+</div>
 
 <table>
     <thead>
@@ -50,15 +43,17 @@
             <img class="user-image" th:src="'data:image/png;base64,' + ${message.user.imageBase64}" alt="User Image"/>
             <span th:text="${message?.user.userName}"></span>
            </td>
-        <td th:text="${message?.title}"></td>
+        <td th:text="${message?.title}">
+        </td>
+        <td>
+            <span th:id="'messagebody_' + ${message.id}" th:text="${message?.chatMessage}">Message Body</span>
+            <button class="submit-button" th:attr="data-message-id=${message.id}" th:text="#{translate}"></button>
 
-        <td th:id="'messagebody_' + ${message.id}" th:text="${message?.chatMessage}">Message Body</td>
-        <td th:text="${message?.user.userName}"></td>
+        </td>
+
         <td th:text="${#dates.format(message?.createdDate, 'yyyy-MM-dd HH:mm')}"></td>
-        <td th:if="${message.lastModifiedDate != null}" th:text="${#dates.format(message?.lastModifiedDate, 'yyyy-MM-dd HH:mm')}" ></td>
-        <td th:unless="${message.lastModifiedDate != null}"></td> <!-- Empty cell if lastModifiedDate is null -->
+        <td th:text="${message?.user.userName + ', ' + #dates.format(message?.lastModifiedDate, 'yyyy-MM-dd HH:mm')}"></td>
 
-        <td><button class="submit-button" th:attr="data-message-id=${message.id}">Submit</button></td>
 
 
 
@@ -100,7 +95,7 @@
        th:class="${pageNumber == messagePage.number + 1} ? 'active'"></a>
 </div>
 
-<a th:href="@{createNewMessage}" th:text="#{create.new.message}"></a>
-<a th:href="@{/yourMessages}" th:text="#{edit.your.message}"></a>
+<a class="button" th:href="@{createNewMessage}" th:text="#{create.new.message}"></a>
+<a class="button" th:href="@{/yourMessages}" th:text="#{edit.your.message}"></a>
 </body>
 </html>

@@ -25,6 +25,7 @@ public class ImageUploader {
 
         } catch (IOException e) {
             e.printStackTrace();
+
             return null;
         }
     }
