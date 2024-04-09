@@ -200,7 +200,7 @@ public class WebController {
     }
 
     @PostMapping("/uploadProfileImage")
-    public String uploadProfileImage(@RequestParam("image") MultipartFile file, @AuthenticationPrincipal OAuth2User principal) throws IOException {
+    public String uploadProfileImage(@RequestParam("image") MultipartFile file, @AuthenticationPrincipal OAuth2User principal, Model model) throws IOException {
         Object idObject = principal.getAttribute("id");
         Integer idInteger = (Integer) idObject;
         Optional<User> userOptional = userRepository.findById(idInteger.longValue());
