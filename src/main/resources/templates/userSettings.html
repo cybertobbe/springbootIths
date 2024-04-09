@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    <link rel="stylesheet" type="text/css" href="/static/styles.css">
+    <link rel="stylesheet" type="text/css" href="/static/style.css">
 </head>
 <body>
 <div>
@@ -11,12 +11,14 @@
     <a href="http://localhost:8080/userSettings?lang=sv">Svenska</a>
 </div>
 
+<h1 th:text="#{settings}"></h1>
+<div class="user-settings">
 <form method="post" th:action="@{/uploadProfileImage}" enctype="multipart/form-data">
     <input type="hidden" name="person" th:value="${userData.id}">
     <div class="form-group">
         <input type="file" name="image" accept="image/*" class="form-control-file">
     </div>
-    <img th:if="${imageData != null}" th:src="'data:image/jpeg;base64,' + ${imageData}" alt="person Image">
+    <img class="profile-image" th:if="${imageData != null}" th:src="'data:image/jpeg;base64,' + ${imageData}" alt="person Image">
     <button type="submit" name="upload" th:text="#{upload}"></button>
 </form>
 
@@ -25,16 +27,16 @@
 <form action="#" th:action="@{/userSettings}" th:object="${userData}" method="post">
     
     <label for="fullName" th:text="#{full.name}"></label>
-    <input id="fullName" type="text" th:field="*{fullName}" />
+    <input class="input" id="fullName" type="text" th:field="*{fullName}" />
 
     <label for="userName" th:text="#{user}"></label>
-    <input id="userName" type="text" th:field="*{userName}" />
+    <input class="input" id="userName" type="text" th:field="*{userName}" />
 
     <label for="email" th:text="#{email}"></label>
-    <input id="email" type="text" th:field="*{mail}" />
+    <input class="input" id="email" type="text" th:field="*{mail}" />
 
     <button type="submit" th:text="#{submit}"></button>
 </form>
-
+</div>
 </body>
 </html>

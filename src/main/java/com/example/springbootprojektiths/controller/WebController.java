@@ -230,10 +230,21 @@ public class WebController {
         Object idObject = principal.getAttribute("id");
         Integer idInteger = (Integer) idObject;
         Optional<User> userOptional = userRepository.findById(idInteger.longValue());
-        User user = userOptional.get();
-        user.setImageData(file.getBytes());
-        userRepository.save(user);
-        return "redirect:/userSettings";
+
+        if (userOptional.isPresent()) {
+            User user = userOptional.get();
+
+            long maxFileSizeInBytes = 10 * 1024 * 1024;
+            if (file.getSize() > maxFileSizeInBytes) {
+                model.addAttribute("errorMessage", "File size exceeds the maximum allowed size.");
+                return "redirect:/userSettings";
+            }
+            user.setImageData(file.getBytes());
+            userRepository.save(user);
+            return "redirect:/userSettings";
+        } else {
+            return "redirect:/error";
+        }
     }
 
 

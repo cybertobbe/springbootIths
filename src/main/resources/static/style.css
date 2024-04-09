@@ -26,6 +26,7 @@ body{
     box-shadow;
 }
 
+
 .button:hover {
     border-top: 2px solid blueviolet;
     border-left: 2px solid blueviolet;
@@ -44,11 +45,13 @@ th, td {
     border: 1px solid #ddd;
     padding: 5px;
     text-align: left;
+
+
     width: 20%;
 }
 .user-image {
-    max-width: 50px; /* Adjust image width as needed */
-    max-height: 50px; /* Adjust image height as needed */
+    max-width: 30px; /* Adjust image width as needed */
+    max-height: 30px; /* Adjust image height as needed */
 }
 
 th {
@@ -57,13 +60,14 @@ th {
 
 
 .form {
-    background-color: white;
+    background-color: #e9e1ef;
     padding: 3.125em;
     border-radius: 10px;
     display: flex;
     flex-direction: column;
     align-items: center;
     box-shadow: 5px 5px 15px -1px rgba(0,0,0,0.75);
+
 }
 
 
@@ -72,18 +76,44 @@ th {
     margin-bottom: 1.25em;
     height: 20px;
     border-radius: 5px;
-    border: 1px solid gray;
+    border: 1px solid rgb(128, 128, 128);
     padding: 0.8em;
     font-family: 'Inter', sans-serif;
     outline: none;
+
 }
 textarea {
     width: 100%;
     margin-bottom: 1.25em;
     border-radius: 5px;
-    border: 1px solid gray;
+    border: 1px solid rgb(128, 128, 128);
     padding: 0.8em;
     font-family: 'Inter', sans-serif;
     outline: none;
 }
 
+.profile-image{
+    width: 250px; /* Adjust image width as needed */
+    height: 250px; /* Adjust image height as needed */
+}
+
+.user-settings{
+    display: flex;
+    width: 40%;
+    background-color: #fafafa;
+    box-shadow: 5px 5px 15px -1px rgba(0,0,0,0.75);
+    padding: 40px;
+}
+
+.container{
+    padding: 20px;
+
+}
+.container a{
+    margin: 10px;
+}
+.flags a {
+    margin: 2px;
+    text-decoration: none;
+
+}

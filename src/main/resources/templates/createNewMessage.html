@@ -3,7 +3,7 @@
 <head>
     <title>Add a message</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-    <link rel="stylesheet" type="text/css" href="/static/styles.css">
+    <link rel="stylesheet" type="text/css" href="/static/style.css">
 </head>
 <body>
 <div>
@@ -17,7 +17,7 @@
         <input class="input" id="title" type="text" th:field="*{title}"/>
 
     <label for="chatMessage" th:text="#{message}"></label>
-    <textarea rows="5" cols="50" id="chatMessage"  name="comment"  th:field="*{chatMessage}"> </textarea>
+    <textarea  rows="5" cols="50" id="chatMessage"  name="comment"  th:field="*{chatMessage}"> </textarea>
 
     <div>
         <input type="checkbox" id="visible" th:field="*{visible}" name="visible" checked />

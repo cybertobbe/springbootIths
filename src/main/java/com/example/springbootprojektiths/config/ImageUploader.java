@@ -1,6 +1,8 @@
 package com.example.springbootprojektiths.config;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Component;
+import org.springframework.web.multipart.MaxUploadSizeExceededException;
+
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -22,6 +24,7 @@ public class ImageUploader {
 
         } catch (IOException e) {
             e.printStackTrace();
+
             return null;
         }
     }
